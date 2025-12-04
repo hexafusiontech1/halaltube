@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>HalalTube - Audio Qur'an</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* ========================================
+     HALALTUBE PICKS 
+     ======================================== */
+  :root,
+  body.light-theme {
+    --halal-bg: #f9f9f9;
+    --halal-card-bg: #ffffff;
+    --halal-text: #333;
+    --halal-border: #ccc;
+    --halal-title: #0d6efd;
+    --halal-subtitle: #6c757d;
+    --halal-badge-bg: rgba(25, 135, 84, 0.9);
+    --halal-badge-text: #ffffff;
+  }
+
+  /* Dark Theme */
+  body.dark-theme {
+    --halal-bg: #0f0f0f;
+    --halal-card-bg: #1e1e1e;
+    --halal-text: #e0e0e0;
+    --halal-border: #303030;
+    --halal-title: #8fb3ff;
+    --halal-subtitle: #b0b0b0;
+    --halal-badge-bg: rgba(46, 204, 113, 0.9);
+    --halal-badge-text: #ffffff;
+  }
+
+  /* Sepia Theme*/
+  body.sepia-theme {
+    --halal-bg: #f4ecd8;
+    --halal-card-bg: #efe4b0;
+    --halal-text: #5c4033;
+    --halal-border: #8b6f47;
+    --halal-title: #8b5a2b;
+    --halal-subtitle: #7e5a3d;
+    --halal-badge-bg: rgba(139, 111, 71, 0.9);
+    --halal-badge-text: #ffffff;
+  }
+
+  /*Theme variables */
+  #halaltube-picks {
+    background-color: var(--halal-bg);
+    padding: 3rem 0;
+  }
+
+  #halaltube-picks .container {
+    max-width: 1100px;
+  }
+
+  #halaltube-picks .text-success {
+    color: #2ecc71 !important;
+  }
+
+  #halaltube-picks .text-muted {
+    color: var(--halal-subtitle) !important;
+  }
+
+  /* Card Styling */
+  #halaltube-picks .card {
+    background-color: var(--halal-card-bg);
+    border: 1px solid var(--halal-border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    height: 100%;
+  }
+
+  #halaltube-picks .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Card Body */
+  #halaltube-picks .card-body {
+    padding: 1.25rem;
+    color: var(--halal-text);
+  }
+
+  #halaltube-picks .card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--halal-title);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  #halaltube-picks .card-text {
+    font-size: 0.9rem;
+    color: var(--halal-subtitle);
+    margin-bottom: 0;
+    font-weight: 500;
+  }
+
+  /* Iframe Container – Always visible */
+  .iframe-container {
+    position: relative;
+    width: 100%;
+    height: 252px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    margin-bottom: 1rem;
+  }
+
+  .iframe-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  /* Play Badge – Visual indicator */
+  .play-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: var(--halal-badge-bg);
+    color: var(--halal-badge-text);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 8px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .play-badge i {
+    font-size: 0.8rem;
+    animation: pulse 2s infinite;
+  }
+  /* Prevent ALL external clicks inside embeds */
+.blocker {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: transparent;
+}
+
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    #halaltube-picks .card-title {
+      font-size: 1rem;
+    }
+    #halaltube-picks .card-text {
+      font-size: 0.85rem;
+    }
+    .iframe-container {
+      height: 250px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .play-badge {
+      font-size: 0.7rem;
+      padding: 4px 8px;
+      top: 8px;
+      right: 8px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Top Navbar -->
+<div class="yt-navbar">
+  <div class="d-flex align-items-center">
+    <div class="yt-icon-btn me-2" id="slidingMenuToggle"><i class="fas fa-bars"></i></div>
+    <a href="index.html" class="yt-logo">
+      <i class="fas fa-mosque text-success"></i> HalalTube <sup style="font-size:12px;">NG</sup>
+    </a>
+  </div>
+  <div class="yt-searchbar">
+    <input type="text" placeholder="Search audio..." id="searchInput">
+    <button class="yt-search-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+  </div>
+  <div class="yt-right-buttons">
+    <div class="yt-adhan-reminder active" id="adhanReminder">
+      <i class="fas fa-clock"></i><span>Adhan: ON</span>
+    </div>
+    <div id="countdownTimer" class="countdown-timer"></div>
+    <div class="yt-theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></div>
+  </div>
+</div>
+
+<!-- Sidebar (unchanged) -->
+<div class="yt-sidebar">
+  <a href="index.html" class="yt-sidebar-item"><i class="fas fa-home"></i><span>Home</span></a>
+  <a href="quran-recitation.html" class="yt-sidebar-item"><i class="fa-solid fa-book-quran"></i><span>Qur'an</span></a>
+  <a href="friday-khutbahs.html" class="yt-sidebar-item"><i class="fa-solid fa-microphone"></i><span>Lectures</span></a>
+  <a href="kids-quran.html" class="yt-sidebar-item"><i class="fa-solid fa-child"></i><span>Kids</span></a>
+  <a href="reminders.html" class="yt-sidebar-item"><i class="fa-solid fa-moon"></i><span>Reminders</span></a>
+  <a href="shorts.html" class="yt-sidebar-item"> <i class="fas fa-video"></i><span>Shorts</span></a>
+  <a href="audio.html" class="yt-sidebar-item active"><i class="fas fa-headphones"></i><span>Halal Audio</span></a>
+  <a href="#" class="yt-sidebar-item active"><i class="fas fa-star text-warning"></i><span>HalalTube Picks</span></a>
+</div>
+
+<div class="yt-sliding-sidebar" id="slidingSidebar">
+        <div class="ht-sliding-navbar">
+            <div class="d-flex align-items-center">
+                <div class="ht-sliding-icon-btn me-2" id="slidingMenuToggleSidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <a href="/" class="ht-sliding-logo">
+                    <i class="fas fa-mosque text-success"></i> HalalTube 
+                    <sup style="font-size:12px;">NG</sup>
+                </a>
+            </div>
+        </div>
+        <hr>
+        <div class="sidebar-section-title">Categories</div>
+        <a href="index.html" class="yt-sliding-sidebar-item">
+            <i class="fas fa-home"></i><span>Home</span>
+        </a>
+        <a href="quran-tafsir.html" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-book-quran"></i><span>Qur'an & Tafsir</span>
+        </a>
+        <a href="lectures-khutbahs.html" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-microphone"></i><span>Lectures & Khutbahs</span>
+        </a>
+        <a href="kids.html" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-child"></i><span>Kids Corner</span>
+        </a>
+        <a href="motivation-reminders.html" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-moon"></i><span>Motivation & Reminders</span>
+        </a>
+        <a href="shorts.html" class="yt-sliding-sidebar-item">
+       <i class="fas fa-video"></i> <span>Shorts</span>
+      </a>
+        <a href="audio.html" class="yt-sliding-sidebar-item">
+            <i class="fas fa-headphones"></i><span>Halal Audio</span>
+        </a>
+         <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fas fa-star text-warning"></i><span>HalalTube Picks</span>
+        </a>
+        <hr>
+        <div class="sidebar-section-title">Explore</div>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-fire"></i><span>Trending</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-clock"></i><span>Latest Uploads</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-star"></i><span>Most Watched</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-bookmark"></i><span>Saved Videos</span>
+        </a>
+        <hr>
+        <div class="sidebar-section-title">Community</div>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-envelope"></i><span>Request a Video</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-flag"></i><span>Report Content</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-comment"></i><span>Feedback</span>
+        </a>
+        <hr>
+        <div class="sidebar-section-title">About</div>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-circle-info"></i><span>About HalalTube</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-shield-halved"></i><span>Halal Policy</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-phone"></i><span>Contact</span>
+        </a>
+    </div>
+    <!-- END: Sliding Sidebar -->
+  
+
+<div class="yt-overlay" id="overlay"></div>
+
+<!-- ============================
+     HALALTUBE PICKS SECTION
+     ============================ -->
+<section id="halaltube-picks" class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold text-success">HalalTube Picks</h2>
+      <p class="text-muted">Curated Qur'an recitations from Audiomack & Spotify</p>
+    </div>
+    <div class="row" id="picks-container"></div>
+  </div>
+</section>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="main.js"></script>
+
+<script>
+  const picks = [
+    { title: "Breath-taking Recitation of Quran – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src: "https://audiomack.com//embed/muhdujkiru/album/breath-taking-recitation-of-quran-by-omar-hisham-al-arabi", platform: "audiomack" },
+
+     
+     { title: "Surat Baqara - Afif_Mohamed_Taj", reciter: "Afif_Mohamed_Taj", src: "https://audiomack.com//embed/sadeeq__ali/song/surat-albaqara-i-sh-afif-mohamed-taj-swrt-albqrt-alshykh-fyf-mhmd-taj1", platform: "audiomack" },
+
+       { title: "THE NOBLE QURAN - SHEIKH NOREEN MUHAMMAD", reciter: "SHEIKH NOREEN MUHAMMAD", src: "https://audiomack.com//embed/aroffiziell/album/the-noble-quran", platform: "audiomack" },
+
+     { title: "Quran Recitations – Quran Recitations", reciter: "Quran Recitations", src: "https://audiomack.com//embed/quran/album/recitations", platform: "audiomack" },
+
+     { title: "AlQuranForEveryone|Abdul Rahman as-Sudais – Abdul Rahman as-Sudais", reciter: "Abdul Rahman as-Sudais", src: "https://audiomack.com//embed/alquranforeveryone/album/al-quran-recitation-by-abdul-rahman-as-sudais-hafs-murattal", platform: "audiomack" },
+
+      { title: "Al Quran Recitation - Salah Bukhatir", reciter: "Salah Bukhatir", src: "https://audiomack.com//embed/alquranforeveryone/album/al-quran-recitation-by-salah-bukhatir-hafs-murattal", platform: "audiomack" },
+
+       { title: " Al Quran Recitation - Ad-Dosari", reciter: "Ad-Dosari", src: "https://audiomack.com//embed/alquranforeveryone/album/al-quran-recitation-by-ad-dosari-hafs-murattal", platform: "audiomack" },
+
+  { title: " Al Quran Recitation - Al-Kurdi", reciter: "Ad-Dosari", src: "https://audiomack.com//embed/alquranforeveryone/album/al-quran-recitation-by-raad-al-kurdi-hafs-murattal", platform: "audiomack" }, 
+
+     
+    { title: "Surah Maryam – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src: "https://audiomack.com/embed/song/deenonrepeat/surah-ar-rahman", platform: "audiomack" },
+    
+    { title: "Surah Al Kahf – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src: "https://audiomack.com/embed/song/deenonrepeat/surah-al-kahf-be-heaven-ouooc-ouuuu", platform: "audiomack" },
+
+      { title: "EVENING ADHKAR & DUA – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src: "https://audiomack.com//embed/khid-jr/song/evening-adhkar-and-dua-omar-hisham-1", platform: "audiomack" },
+
+    { title: "Surah Al Waqiah – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src: "https://audiomack.com//embed/deenonrepeat/song/surah-al-waqiah-1", platform: "audiomack" },
+
+  { title: "Surah Yaseen – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src: "https://audiomack.com//embed/deenonrepeat/song/surah-yaseen", platform: "audiomack" },
+
+
+   { title: "Al Quran Recitation – Yousuf Bin Noah Ahmad", reciter: "Yousuf Bin Noah Ahmad", src: "https://audiomack.com//embed/alquranforeveryone/album/al-quran-recitation-by-yousuf-bin-noah-ahmad-hafs-murattal", platform: "audiomack" },
+
+
+  { title: "Surah At Tariq – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src: "https://audiomack.com//embed/deenonrepeat/song/surah-at-tariq", platform: "audiomack" },
+
+   { title: "Suratul-kahf – Sheikh-afif-mohammed-taj", reciter: "Sheikh-afif-mohammed-taj", src: "https://audiomack.com//embed/quran01/song/sheikh-afif-mohammed-taj-suratul-kahf", platform: "audiomack" },
+
+  { title: "Morning Dua in Full أذكار الصباح كاملة بدقة عالية بصوت عمر هشام العربي – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src: "https://audiomack.com//embed/aasma-nawab/song/morning-dua-in-full-adhkar-omar-hisham-zzmkmac8we-128k-1654244347873", platform: "audiomack" },
+
+   { title: " Heartwarming_and_Soothing_Quran_Recitation", reciter: "Ishaq sarki", src: "https://audiomack.com//embed/isyakashehu8/song/heartwarming-and-soothing-quran-recitation-4k-ultra-hd-sh-afif-moh-taj-surat-youssef128k", platform: "audiomack" },
+
+   { title: "Surah Yusuf – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src: "https://audiomack.com//embed/deenonrepeat/song/surah-yusuf-1", platform: "audiomack" },
+
+     { title: "Surah Taha – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src: "https://audiomack.com//embed/deenonrepeat/song/surah-taha", platform: "audiomack" },
+
+     { title: "Surah Ali Imran – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src: "https://audiomack.com//embed/deenonrepeat/song/surah-ali-imran", platform: "audiomack" },
+
+
+      { title: "Surah Al Baqarah – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src: "https://audiomack.com//embed/deenonrepeat/song/surah-al-baqarah", platform: "audiomack" },
+
+      { title: "Surah Al Hujurat – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/deenonrepeat/song/surah-al-hujurat", platform: "audiomack" },
+
+      { title: "Surah Al Anbiya – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/deenonrepeat/song/surah-al-anbiya", platform: "audiomack" },
+
+       { title: "Surah Ar Ra'd – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/deenonrepeat/song/surah-ar-rad", platform: "audiomack" },
+
+        { title: "Surah As-Saffat – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/deenonrepeat/song/surah-as-saffat", platform: "audiomack" },
+
+        { title: "Surah Adh Dhariyat – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/deenonrepeat/song/be-heaven-surah-adh-dhariyat-ouooc-ouoouoo-ououoou", platform: "audiomack" },
+
+           { title: "Morning Adhkar – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/engr_basheer/song/morning-adhkar", platform: "audiomack" },
+
+              { title: "Surah Al Hashr – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/deenonrepeat/song/surah-al-hashr", platform: "audiomack" },
+
+            { title: "Recitation Of Surah Maryam By Omar Hisham Al Arabi – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/muhdujkiru/song/recitation-of-surah-maryam-by-omar-hisham-al-arabi", platform: "audiomack" },
+
+    { title: "Surah Al Qamar – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/deenonrepeat/song/surah-al-qamar", platform: "audiomack" },
+
+     { title: "Surah Al Qamar – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/deenonrepeat/song/surah-al-qamar", platform: "audiomack" },
+
+     { title: "Sakinah – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/cissemouhamadoum/song/sakinah", platform: "audiomack" },
+
+      { title: "40 Rabbana – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/muhdujkiru/song/40-rabbana", platform: "audiomack" },
+
+      { title: "Surah As Sajdah – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/deenonrepeat/song/surah-as-sajdah", platform: "audiomack" },
+
+    { title: "Surah As Sajdah – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/deenonrepeat/song/surah-as-sajdah", platform: "audiomack" },
+
+
+ { title: "Al Quran Al Kareem - Islamisgreat – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/moxaaa54/song/4-quls-night-time-quran-black-screen-be-heaven-omar-hisham-al-arabi", platform: "audiomack" },
+
+
+ { title: "Ayat Shifa The Healing Verses _v240P – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/muhdujkiru/song/ayat-shifa-the-healing-verses-v240p", platform: "audiomack" },
+
+ { title: "RUQYAH - RUQYAH – Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/quran350/song/ruqyah-spiritual-treatment-for-black-magic-jinn-evil-eye-omar-hisham-al-arabi-qadri-records", platform: "audiomack" },
+
+  { title: " Omar Hisham Al Arabi– Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/raif7861/album/omar-hisham-al-arabi", platform: "audiomack" },
+
+
+   { title: " Best of Okin Quran Recitation– Alhaji Abdul-Muhmen OKIN", reciter: "Alhaji Abdul-Muhmen OKIN", src:"https://audiomack.com//embed/naijatram/album/best-of-okin-quran-recitation", platform: "audiomack" },
+
+   { title: " Al Quran Recitation– Mishary Al-Afasy", reciter: "Mishary Al-Afasy", src:"https://audiomack.com//embed/alquranforeveryone/album/al-quran-recitation-by-mishary-rashid-al-afasy-hafs-mujawwad", platform: "audiomack" },
+  
+ { title: "Qur'an Recitation Complete  - Sheikh Badr Al Turki", reciter: "Sheikh Badr Al Turki", src:"https://audiomack.com//embed/mohammadramatu/album/quran-recitation-2", platform: "audiomack" },
+
+  { title: "Qur'an Recitation Complete  - Sheikh Badr Al Turki", reciter: "Sheikh Badr Al Turki", src:"https://audiomack.com//embed/mohammadramatu/album/quran-recitation-2", platform: "audiomack" },
+
+   { title: "Be Heaven  - Omar Hisham Al Arabi", reciter: "Omar Hisham Al Arabi", src:"https://audiomack.com//embed/deenonrepeat/album/be-heaven", platform: "audiomack" },
+
+//    End of Audiomack
+
+// Spotify
+    { title: "Ayat Kursi", reciter: "Halal Audio", src: "https://open.spotify.com/embed/playlist/3LunT16O5vAMpe3kkB5qdF?utm_source=generator", platform: "spotify" },
+    
+    { title: "Surah Al-Kahf", reciter: "Le coran", src: "https://open.spotify.com/embed/album/3NDbHhX4MDnsSEoofTAEKH?utm_source=generator", platform: "spotify" },
+
+    { title: "SHEIKH AFIF MOHAMMED TAJ playlist", reciter: "SHEIKH AFIF MOHAMMED TAJ", src: "https://open.spotify.com/embed/playlist/05fGW68jiLioI40uVvRyRG?utm_source=generator", platform: "spotify" },
+
+      { title: "Full Quran Playlist ", reciter: "SHEIKH NOREEN MUHAMMAD SIDDIQUE", src: "https://open.spotify.com/embed/playlist/4TSzDTOoROVOyH9JmtEqAg?utm_source=generator", platform: "spotify" },
+      
+    { title: "Full Quran Playlist – Mishari Rashid Alafasy", reciter: "Mishari Rashid Alafasy", src: "https://open.spotify.com/embed/artist/6nd2oiKSu9ksEAMzpXjIyi?utm_source=generator", platform: "spotify" },
+    
+      { title: "سورة يوسف – أحمد خضر", reciter: "أحمد خضر", src: "https://open.spotify.com/embed/album/3SobShw28bw5JJfpSa59Zd?utm_source=generator", platform: "spotify" },
+  ];
+
+  const container = document.getElementById('picks-container');
+
+  picks.forEach(rec => {
+    const col = document.createElement('div');
+    col.className = 'col-md-6 col-lg-4 mb-4';
+
+    const iframeHTML = `
+      <iframe 
+        src="${rec.src}" 
+        width="100%" 
+        height="252" 
+        frameborder="0" 
+        scrolling="no" 
+        allow="${rec.platform === 'spotify' ? 'encrypted-media' : 'autoplay'}"
+        loading="lazy">
+      </iframe>
+    `;
+
+
+    col.innerHTML = `
+      <div class="card shadow-sm h-100">
+        <div class="iframe-container position-relative">
+          ${iframeHTML}
+          <span class="play-badge"><i class="fas fa-play"></i>HalalTube.NG</span>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">${rec.title}</h5>
+          <p class="card-text">${rec.reciter}</p>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(col);
+  });
+</script>
+</body>
+</html>

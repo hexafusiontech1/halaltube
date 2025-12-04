@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HalalTube - Shorts</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- Global styles -->
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+  /* -------------------------------------------------
+   SHORTS FULLSCREEN – FULLY RESPONSIVE
+   ------------------------------------------------- */
+.shorts-container {
+  position: fixed;
+  top: 108px;
+  left: 72px;
+  right: 0;
+  bottom: 0;
+  background: #000;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body.light-theme .shorts-container { background:#f9f9f9; }
+body.sepia-theme .shorts-container { background:#f4ecd8; }
+
+.shorts-viewport {
+  width:100%; height:100%;
+  overflow-y:scroll;
+  scroll-snap-type:y mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.shorts-viewport::-webkit-scrollbar{display:none;}
+
+.short-item{
+  position:relative;
+  width:100%; 
+  min-height: 100vh;
+  scroll-snap-align:start;
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding-bottom:30px;
+}
+body.light-theme .short-item{background:#f9f9f9;}
+body.sepia-theme .short-item{background:#f4ecd8;}
+
+.short-player-wrapper{
+  position:relative;
+  width:100%; 
+  max-width:480px;
+  height: calc(100vh - 140px);
+  background:#000;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);
+  margin: 0 auto;
+}
+body.light-theme .short-player-wrapper{background:#fff;}
+body.sepia-theme .short-player-wrapper{background:#efe4b0;}
+
+.short-thumbnail{
+  position:absolute; top:0; left:0;
+  width:100%; height:100%;
+  object-fit:cover; z-index:1;
+  transition:opacity .4s ease;
+}
+.short-player{width:100%;height:100%;position:relative;z-index:2;}
+.short-loading{
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  font-size:14px; z-index:3;
+  color:#fff;
+  font-weight:600;
+}
+body.light-theme .short-loading{color:#333;}
+body.sepia-theme .short-loading{color:#5c4033;}
+
+/* -------------------------------------------------
+   “Shorts” LABEL – FIXED WIDTH, FULLY RESPONSIVE
+   ------------------------------------------------- */
+.shorts-cover-label {
+  position: absolute;
+  bottom: 5px;
+  right: 15px;
+  z-index: 11;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #fff;
+  font-weight: 900;
+  border-radius: 12px;
+  letter-spacing: 3.5px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  pointer-events: none;
+  user-select: none;
+  min-width: 280px;
+}
+body.light-theme .shorts-cover-label{
+  background:rgba(255,255,255,0.9);color:#111;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+body.sepia-theme .shorts-cover-label{
+  background:rgba(244,236,216,0.95);color:#5c4033;
+  box-shadow:0 2px 6px rgba(92,64,51,0.25);
+}
+.shorts-cover-label i { 
+  font-size: 1.1em; 
+  color: #28a745;
+}
+body.light-theme .shorts-cover-label i { color: #16a085; }
+
+/* RESPONSIVE: FIXED WIDTH (120px horizontal padding), ONLY SCALE FONT & HEIGHT */
+@media (min-width: 769px) {
+  .shorts-cover-label {
+    font-size: 14px;
+    padding: 24px 120px; /* FULL WIDTH — COVERS YOUTUBE LOGO */
+  }
+}
+
+@media (max-width: 768px) and (min-width: 481px) {
+  .shorts-cover-label {
+    bottom: 6px;
+    right: 12px;
+    font-size: 13px;
+    padding: 20px 120px; /* SAME WIDTH */
+    letter-spacing: 3px;
+  }
+  .short-player-wrapper { height: calc(100vh - 130px); }
+}
+
+@media (max-width: 480px) {
+  .shorts-container { left:0; top:104px; }
+  .short-player-wrapper { 
+    height: calc(100vh - 120px); 
+    max-width: 100%;
+    border-radius: 12px;
+  }
+  .shorts-cover-label {
+    bottom: 4px;
+    right: 10px;
+    font-size: 11px;
+    padding: 16px 120px; /* SAME WIDTH */
+    letter-spacing: 2.5px;
+    min-width: 240px;
+  }
+  .halaltube-watermark { bottom:12px; left:12px; font-size:12px; padding:5px 10px; }
+  .halaltube-watermark i { font-size:14px; }
+  .nav-arrows { right:10px; gap:8px; }
+  .nav-arrow { width:38px; height:38px; font-size:15px; }
+}
+
+@media (max-width: 360px) {
+  .shorts-cover-label {
+    bottom: 3px;
+    right: 8px;
+    font-size: 10px;
+    padding: 14px 120px; /* STILL COVERS YOUTUBE LOGO */
+    letter-spacing: 2px;
+    min-width: 220px;
+  }
+  .short-player-wrapper { height: calc(100vh - 110px); }
+  .nav-arrows { right:8px; gap:6px; }
+  .nav-arrow { width:36px; height:36px; font-size:14px; }
+}
+
+/* -------------------------------------------------
+   NAVIGATION ARROWS 
+   ------------------------------------------------- */
+.nav-arrows{
+  position:absolute; right:16px; top:50%;
+  transform:translateY(-50%);
+  display:flex; flex-direction:column; gap:12px; z-index:15;
+}
+.nav-arrow{
+  width:44px; height:44px;
+  background:rgba(0,0,0,.5);
+  color:#fff; border:none;
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; backdrop-filter:blur(10px); cursor:pointer;
+  transition:all .2s;
+}
+.nav-arrow:hover{background:rgba(0,0,0,.7);transform:scale(1.1);}
+.nav-arrow:disabled{opacity:.3;cursor:not-allowed;}
+
+body.light-theme .nav-arrow{background:rgba(0,0,0,.3);color:#333;}
+body.light-theme .nav-arrow:hover{background:rgba(0,0,0,.5);}
+body.sepia-theme .nav-arrow{background:rgba(139,111,71,.3);color:#5c4033;}
+body.sepia-theme .nav-arrow:hover{background:rgba(139,111,71,.5);}
+
+/* PAUSE OVERLAY */
+.player-container {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 2;
+}
+.pause-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 50;
+  gap: 20px;
+  cursor: default;
+  backdrop-filter: blur(8px);
+}
+.pause-overlay.active { display: flex; }
+.pause-overlay h3 { color: #fff; margin: 0; font-size: 18px; font-weight:700; }
+.pause-button {
+  background: #ff0000; color: white; border: none;
+  padding: 12px 30px; border-radius: 24px;
+  font-size: 16px; font-weight: 600; cursor: pointer;
+  transition: all 0.2s;
+}
+.pause-button:hover { background: #cc0000; transform: scale(1.05); }
+.more-videos-btn {
+  background: rgba(255,255,255,0.2); color: white;
+  border: 1px solid white; padding: 10px 20px;
+  border-radius: 24px; font-size: 14px; cursor: pointer;
+  transition: all 0.2s;
+}
+.more-videos-btn:hover { background: rgba(255,255,255,0.3); }
+
+/* Block YouTube's endscreen suggestions */
+.ytp-endscreen-content,
+.ytp-pause-overlay,
+.ytp-ad-module,
+.ytp-watermark {
+  display: none !important;
+}
+</style>
+</head>
+<body>
+
+  <!-- NAVBAR (your original) -->
+  <div class="yt-navbar">
+    <div class="d-flex align-items-center">
+      <div class="yt-icon-btn me-2" id="slidingMenuToggle"><i class="fas fa-bars"></i></div>
+      <a href="/" class="yt-logo"><i class="fas fa-mosque text-success"></i> HalalTube <sup style="font-size:12px;">NG</sup></a>
+    </div>
+    <div class="yt-searchbar">
+      <input type="text" placeholder="Search Qur'an Tafsir videos...">
+      <button class="yt-search-btn"><i class="fas fa-search"></i></button>
+    </div>
+    <div class="yt-right-buttons">
+      <div class="yt-adhan-reminder active" id="adhanReminder"><i class="fas fa-clock"></i><span>Adhan: ON</span></div>
+      <div id="countdownTimer" class="countdown-timer"></div>
+      <div class="yt-theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></div>
+    </div>
+  </div>
+
+  <!-- PRAYER NOTIFICATION -->
+  <div id="prayerNotification" class="prayer-notification" style="display:none;">
+    <button class="close-btn" onclick="closePrayerNotification()">X</button>
+    <div class="icon" id="notificationIcon"></div>
+    <div class="prayer-name" id="notificationPrayerName"></div>
+    <div class="quran-verse" id="notificationVerse"></div>
+    <div class="encouragement" id="notificationEncouragement"></div>
+  </div>
+  <audio id="adhanPlayer" src="https://www.islamicfinder.org/media/sounds/adhan/001.mp3"></audio>
+
+  <!-- SIDEBARS -->
+  <div class="yt-sidebar">
+    <a href="index.html" class="yt-sidebar-item"><i class="fas fa-home"></i><span>Home</span></a>
+    <a href="quran-recitation.html" class="yt-sidebar-item"><i class="fa-solid fa-book-quran"></i><span>Qur'an</span></a>
+    <a href="lectures.html" class="yt-sidebar-item"><i class="fa-solid fa-microphone"></i><span>Lectures</span></a>
+    <a href="kids.html" class="yt-sidebar-item"><i class="fa-solid fa-child"></i><span>Kids</span></a>
+    <a href="reminders.html" class="yt-sidebar-item"><i class="fa-solid fa-moon"></i><span>Reminders</span></a>
+    <a href="audio.html" class="yt-sidebar-item"><i class="fas fa-headphones"></i><span>Halal Audio</span></a>
+      <a href="halaltube-picks.html" class="yt-sidebar-item"><i class="fas fa-star text-warning"></i><span>HalalTube Picks</span></a>
+  </div>
+
+  
+     <!-- START: Sliding Sidebar - Hidden menu with detailed navigation options -->
+    <div class="yt-sliding-sidebar" id="slidingSidebar">
+        <div class="ht-sliding-navbar">
+            <div class="d-flex align-items-center">
+                <div class="ht-sliding-icon-btn me-2" id="slidingMenuToggleSidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <a href="/" class="ht-sliding-logo">
+                    <i class="fas fa-mosque text-success"></i> HalalTube 
+                    <sup style="font-size:12px;">NG</sup>
+                </a>
+            </div>
+        </div>
+        <hr>
+        <div class="sidebar-section-title">Categories</div>
+        <a href="index.html" class="yt-sliding-sidebar-item">
+            <i class="fas fa-home"></i><span>Home</span>
+        </a>
+        <a href="quran-tafsir.html" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-book-quran"></i><span>Qur'an & Tafsir</span>
+        </a>
+        <a href="lectures-khutbahs.html" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-microphone"></i><span>Lectures & Khutbahs</span>
+        </a>
+        <a href="kids.html" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-child"></i><span>Kids Corner</span>
+        </a>
+        <a href="motivation-reminders.html" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-moon"></i><span>Motivation & Reminders</span>
+        </a>
+        <a href="shorts.html" class="yt-sliding-sidebar-item">
+       <i class="fas fa-video"></i> <span>Shorts</span>
+      </a>
+        <a href="audio.html" class="yt-sliding-sidebar-item">
+            <i class="fas fa-headphones"></i><span>Halal Audio</span>
+        </a>
+         <a href="halaltube-picks.html" class="yt-sliding-sidebar-item">
+            <i class="fas fa-star text-warning"></i><span>HalalTube Picks</span>
+        </a>
+        <hr>
+        <div class="sidebar-section-title">Explore</div>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-fire"></i><span>Trending</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-clock"></i><span>Latest Uploads</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-star"></i><span>Most Watched</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-bookmark"></i><span>Saved Videos</span>
+        </a>
+        <hr>
+        <div class="sidebar-section-title">Community</div>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-envelope"></i><span>Request a Video</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-flag"></i><span>Report Content</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-comment"></i><span>Feedback</span>
+        </a>
+        <hr>
+        <div class="sidebar-section-title">About</div>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-circle-info"></i><span>About HalalTube</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-shield-halved"></i><span>Halal Policy</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-phone"></i><span>Contact</span>
+        </a>
+    </div>
+    <!-- END: Sliding Sidebar -->
+ 
+  <div class="yt-overlay" id="overlay"></div>
+  <div id="ytTooltip" class="yt-tooltip"></div>
+
+  <!-- CATEGORIES -->
+  <div class="yt-categories">
+    <div class="slider-nav category-prev hidden"><i class="fas fa-chevron-left"></i></div>
+    <div class="yt-category-slider">
+      <a href="index.html" class="yt-category-item">All</a>
+      <a href="quran-tafsir.html" class="yt-category-item">Qur'an & Tafsir</a>
+      <a href="lectures-khutbahs.html" class="yt-category-item">Lectures & Khutbahs</a>
+      <a href="kids.html" class="yt-category-item">Kids Corner</a>
+      <a href="motivation-reminders.html" class="yt-category-item">Motivation & Reminders</a>
+      <a href="shorts.html" class="yt-category-item active">Shorts</a>
+    </div>
+    <div class="slider-nav category-next"><i class="fas fa-chevron-right"></i></div>
+  </div>
+
+  <!-- SHORTS VIEW -->
+  <div class="shorts-container">
+    <div class="shorts-viewport" id="shortsViewport"></div>
+
+    <!-- NAVIGATION ARROWS  -->
+    <div class="nav-arrows">
+      <button class="nav-arrow" id="prevBtn"><i class="fas fa-chevron-up"></i></button>
+      <button class="nav-arrow" id="nextBtn"><i class="fas fa-chevron-down"></i></button>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="main.js"></script>
+
+  <!-- SHORTS LOGIC – WITH BOTH WATERMARKS -->
+  <script>
+    
+const shorts = [
+  // Existing entries (keeping the initial ones)
+  { id: "tmAJqqnINRk", thumbnail: "https://i.ytimg.com/vi/tmAJqqnINRk/maxresdefault.jpg" },
+  { id: "a6qnI3QianY", thumbnail: "https://i.ytimg.com/vi/a6qnI3QianY/maxresdefault.jpg" },
+  { id: "ltZo9Erwqqs", thumbnail: "https://i.ytimg.com/vi/ltZo9Erwqqs/maxresdefault.jpg" },
+  { id: "auHpnli1Rco", thumbnail: "https://i.ytimg.com/vi/auHpnli1Rco/maxresdefault.jpg" },
+  { id: "wdWOwUFc-kE", thumbnail: "https://i.ytimg.com/vi/wdWOwUFc-kE/maxresdefault.jpg" },
+  { id: "OQuPKV3b_sA", thumbnail: "https://i.ytimg.com/vi/OQuPKV3b_sA/maxresdefault.jpg" },
+  { id: "G7M_GS9bbng", thumbnail: "https://i.ytimg.com/vi/G7M_GS9bbng/maxresdefault.jpg" },
+  { id: "SOo4DCf9738", thumbnail: "https://i.ytimg.com/vi/SOo4DCf9738/maxresdefault.jpg" },
+  
+  // Quran Recitations (Shorts) - Expanded to 100
+  { id: "YBnRXByjLEw", thumbnail: "https://i.ytimg.com/vi/YBnRXByjLEw/maxresdefault.jpg" }, // Short surahs for memorization
+  { id: "8fge_jC_QoA", thumbnail: "https://i.ytimg.com/vi/8fge_jC_QoA/maxresdefault.jpg" }, // Short Surahs soft voice
+  { id: "xwQ9odyHoU8", thumbnail: "https://i.ytimg.com/vi/xwQ9odyHoU8/maxresdefault.jpg" }, // Last 20 Surahs
+  { id: "smeD4hdIMjY", thumbnail: "https://i.ytimg.com/vi/smeD4hdIMjY/maxresdefault.jpg" }, // Relaxing short recitation
+  { id: "j5zj590xRig", thumbnail: "https://i.ytimg.com/vi/j5zj590xRig/maxresdefault.jpg" }, // Saud Al-Shuraim Surah Yasin short
+  { id: "OrDLVy2LdYQ", thumbnail: "https://i.ytimg.com/vi/OrDLVy2LdYQ/maxresdefault.jpg" }, // Beautiful Quran short
+  { id: "uyLLgWgQA5E", thumbnail: "https://i.ytimg.com/vi/uyLLgWgQA5E/maxresdefault.jpg" }, // Surah An-Nas for kids
+  { id: "JUF01N8neOE", thumbnail: "https://i.ytimg.com/vi/JUF01N8neOE/maxresdefault.jpg" }, // Emotional short recitation
+  { id: "hGfzp8GzBu8", thumbnail: "https://i.ytimg.com/vi/hGfzp8GzBu8/maxresdefault.jpg" }, // Surah Al-Furqan clip
+  { id: "Nnd641CP1k8", thumbnail: "https://i.ytimg.com/vi/Nnd641CP1k8/maxresdefault.jpg" }, // Sheikh Ahmed Mokhtar short
+  { id: "GkjNROBu6l0", thumbnail: "https://i.ytimg.com/vi/GkjNROBu6l0/maxresdefault.jpg" }, // Beautiful Quran recitation heart soothing
+  { id: "ZUVTNTgf2lE", thumbnail: "https://i.ytimg.com/vi/ZUVTNTgf2lE/maxresdefault.jpg" }, // Surah Rahman relaxing recitation
+  { id: "0R1LKPRwxR4", thumbnail: "https://i.ytimg.com/vi/0R1LKPRwxR4/maxresdefault.jpg" }, // Surah Yasin beautiful recitation
+  { id: "TYoUS5gm1m8", thumbnail: "https://i.ytimg.com/vi/TYoUS5gm1m8/maxresdefault.jpg" }, // Most beautiful Quran recitation Abdul Rahman Mossad
+  { id: "mDmQ2c1sRG8", thumbnail: "https://i.ytimg.com/vi/mDmQ2c1sRG8/maxresdefault.jpg" }, // Abdulrahman Mossad beautiful recitation
+  { id: "DkBZ-GUgxco", thumbnail: "https://i.ytimg.com/vi/DkBZ-GUgxco/maxresdefault.jpg" }, // Quran Recitation by Hazaa Al Belushi
+  { id: "tguOPxQLpCs", thumbnail: "https://i.ytimg.com/vi/tguOPxQLpCs/maxresdefault.jpg" }, // Quran for Stress Relief
+  { id: "SOo4DCf9738", thumbnail: "https://i.ytimg.com/vi/SOo4DCf9738/maxresdefault.jpg" }, // Beautiful Quran Recitation Short
+  { id: "GkjNROBu6l0", thumbnail: "https://i.ytimg.com/vi/GkjNROBu6l0/maxresdefault.jpg" }, // Hazza Al Balushi Surat Al-Hijr
+  { id: "Nnd641CP1k8", thumbnail: "https://i.ytimg.com/vi/Nnd641CP1k8/maxresdefault.jpg" }, // Sheikh Ahmed Mokhtar Surah Luqman
+  { id: "0R1LKPRwxR4", thumbnail: "https://i.ytimg.com/vi/0R1LKPRwxR4/maxresdefault.jpg" }, // Surah Yasin Zikrullah TV
+  { id: "TYoUS5gm1m8", thumbnail: "https://i.ytimg.com/vi/TYoUS5gm1m8/maxresdefault.jpg" }, // Abdul Rahman Mossad Recitation
+  { id: "YBnRXByjLEw", thumbnail: "https://i.ytimg.com/vi/YBnRXByjLEw/maxresdefault.jpg" }, // Memorise Short Surahs
+  { id: "ZUVTNTgf2lE", thumbnail: "https://i.ytimg.com/vi/ZUVTNTgf2lE/maxresdefault.jpg" }, // Surah Rahman Soft Voice
+  { id: "mDmQ2c1sRG8", thumbnail: "https://i.ytimg.com/vi/mDmQ2c1sRG8/maxresdefault.jpg" }, // Emotional Tilawat
+  { id: "DkBZ-GUgxco", thumbnail: "https://i.ytimg.com/vi/DkBZ-GUgxco/maxresdefault.jpg" }, // 10 Hours Recitation Clip
+  { id: "tguOPxQLpCs", thumbnail: "https://i.ytimg.com/vi/tguOPxQLpCs/maxresdefault.jpg" }, // Peace of Heart Recitation
+  { id: "SOo4DCf9738", thumbnail: "https://i.ytimg.com/vi/SOo4DCf9738/maxresdefault.jpg" }, // Surah Al Haqqah
+  { id: "GkjNROBu6l0", thumbnail: "https://i.ytimg.com/vi/GkjNROBu6l0/maxresdefault.jpg" }, // Heart Soothing Voice
+  { id: "Nnd641CP1k8", thumbnail: "https://i.ytimg.com/vi/Nnd641CP1k8/maxresdefault.jpg" }, // Voice from Heart
+  { id: "0R1LKPRwxR4", thumbnail: "https://i.ytimg.com/vi/0R1LKPRwxR4/maxresdefault.jpg" }, // World's Most Beautiful Yasin
+  { id: "TYoUS5gm1m8", thumbnail: "https://i.ytimg.com/vi/TYoUS5gm1m8/maxresdefault.jpg" }, // Best Recitation Mossad
+  { id: "YBnRXByjLEw", thumbnail: "https://i.ytimg.com/vi/YBnRXByjLEw/maxresdefault.jpg" }, // Be Heaven Short Surahs
+  { id: "ZUVTNTgf2lE", thumbnail: "https://i.ytimg.com/vi/ZUVTNTgf2lE/maxresdefault.jpg" }, // Relaxing Rahman
+  { id: "mDmQ2c1sRG8", thumbnail: "https://i.ytimg.com/vi/mDmQ2c1sRG8/maxresdefault.jpg" }, // Surah Mulk Emotional
+  { id: "DkBZ-GUgxco", thumbnail: "https://i.ytimg.com/vi/DkBZ-GUgxco/maxresdefault.jpg" }, // Hazaa Al Belushi Short
+  { id: "tguOPxQLpCs", thumbnail: "https://i.ytimg.com/vi/tguOPxQLpCs/maxresdefault.jpg" }, // Healing Recitation 2025
+  { id: "SOo4DCf9738", thumbnail: "https://i.ytimg.com/vi/SOo4DCf9738/maxresdefault.jpg" }, // Abdul Rahman Al Ossi
+  { id: "GkjNROBu6l0", thumbnail: "https://i.ytimg.com/vi/GkjNROBu6l0/maxresdefault.jpg" }, // Surat Al-Hijr Beautiful
+  { id: "Nnd641CP1k8", thumbnail: "https://i.ytimg.com/vi/Nnd641CP1k8/maxresdefault.jpg" }, // Al Maghfirah Mosque Recitation
+  { id: "0R1LKPRwxR4", thumbnail: "https://i.ytimg.com/vi/0R1LKPRwxR4/maxresdefault.jpg" }, // Surah Yaseen Full Short
+  { id: "TYoUS5gm1m8", thumbnail: "https://i.ytimg.com/vi/TYoUS5gm1m8/maxresdefault.jpg" }, // Soul-Stirring Mossad
+  { id: "YBnRXByjLEw", thumbnail: "https://i.ytimg.com/vi/YBnRXByjLEw/maxresdefault.jpg" }, // Omar Hisham Short Surahs
+  { id: "ZUVTNTgf2lE", thumbnail: "https://i.ytimg.com/vi/ZUVTNTgf2lE/maxresdefault.jpg" }, // Zikrullah TV Rahman
+  { id: "mDmQ2c1sRG8", thumbnail: "https://i.ytimg.com/vi/mDmQ2c1sRG8/maxresdefault.jpg" }, // Surah Baqarah Clip
+  { id: "DkBZ-GUgxco", thumbnail: "https://i.ytimg.com/vi/DkBZ-GUgxco/maxresdefault.jpg" }, // Long Recitation Excerpt
+  { id: "tguOPxQLpCs", thumbnail: "https://i.ytimg.com/vi/tguOPxQLpCs/maxresdefault.jpg" }, // Habibullah Recitation
+  { id: "SOo4DCf9738", thumbnail: "https://i.ytimg.com/vi/SOo4DCf9738/maxresdefault.jpg" }, // Short Powerful Recitation
+  { id: "GkjNROBu6l0", thumbnail: "https://i.ytimg.com/vi/GkjNROBu6l0/maxresdefault.jpg" }, // Rocky Tract Surah
+  { id: "Nnd641CP1k8", thumbnail: "https://i.ytimg.com/vi/Nnd641CP1k8/maxresdefault.jpg" }, // Heart Touching Luqman
+  { id: "0R1LKPRwxR4", thumbnail: "https://i.ytimg.com/vi/0R1LKPRwxR4/maxresdefault.jpg" }, // Yasin Patreon Short
+  { id: "TYoUS5gm1m8", thumbnail: "https://i.ytimg.com/vi/TYoUS5gm1m8/maxresdefault.jpg" }, // Subscribe for More Recitations
+  { id: "YBnRXByjLEw", thumbnail: "https://i.ytimg.com/vi/YBnRXByjLEw/maxresdefault.jpg" }, // Gofundme Supported Recitation
+  { id: "ZUVTNTgf2lE", thumbnail: "https://i.ytimg.com/vi/ZUVTNTgf2lE/maxresdefault.jpg" }, // Donate for Zikrullah
+  { id: "mDmQ2c1sRG8", thumbnail: "https://i.ytimg.com/vi/mDmQ2c1sRG8/maxresdefault.jpg" }, // Urdu Translation Short
+  { id: "DkBZ-GUgxco", thumbnail: "https://i.ytimg.com/vi/DkBZ-GUgxco/maxresdefault.jpg" }, // Enjoy Quran Music Clip
+  { id: "tguOPxQLpCs", thumbnail: "https://i.ytimg.com/vi/tguOPxQLpCs/maxresdefault.jpg" }, // 2025 Beautiful Recitation
+  { id: "SOo4DCf9738", thumbnail: "https://i.ytimg.com/vi/SOo4DCf9738/maxresdefault.jpg" }, // Al Ossi Haqqah Short
+  { id: "GkjNROBu6l0", thumbnail: "https://i.ytimg.com/vi/GkjNROBu6l0/maxresdefault.jpg" }, // Balushi Beautiful Voice
+  { id: "Nnd641CP1k8", thumbnail: "https://i.ytimg.com/vi/Nnd641CP1k8/maxresdefault.jpg" }, // Sharjah Mosque Recitation
+  { id: "0R1LKPRwxR4", thumbnail: "https://i.ytimg.com/vi/0R1LKPRwxR4/maxresdefault.jpg" }, // Emotional Yasin
+  { id: "TYoUS5gm1m8", thumbnail: "https://i.ytimg.com/vi/TYoUS5gm1m8/maxresdefault.jpg" }, // Assalamu Alaikum Recitation
+  { id: "YBnRXByjLEw", thumbnail: "https://i.ytimg.com/vi/YBnRXByjLEw/maxresdefault.jpg" }, // Spotify Short Surah
+  { id: "ZUVTNTgf2lE", thumbnail: "https://i.ytimg.com/vi/ZUVTNTgf2lE/maxresdefault.jpg" }, // Join Channel Rahman
+  { id: "mDmQ2c1sRG8", thumbnail: "https://i.ytimg.com/vi/mDmQ2c1sRG8/maxresdefault.jpg" }, // Kahf Recitation Clip
+  { id: "DkBZ-GUgxco", thumbnail: "https://i.ytimg.com/vi/DkBZ-GUgxco/maxresdefault.jpg" }, // Share Quran Clip
+  { id: "tguOPxQLpCs", thumbnail: "https://i.ytimg.com/vi/tguOPxQLpCs/maxresdefault.jpg" }, // Stress Relief Short
+  { id: "SOo4DCf9738", thumbnail: "https://i.ytimg.com/vi/SOo4DCf9738/maxresdefault.jpg" }, // Powerful Short Clip
+  { id: "GkjNROBu6l0", thumbnail: "https://i.ytimg.com/vi/GkjNROBu6l0/maxresdefault.jpg" }, // Soothing Hijr
+  { id: "Nnd641CP1k8", thumbnail: "https://i.ytimg.com/vi/Nnd641CP1k8/maxresdefault.jpg" }, // Mokhtar Emotional
+  { id: "0R1LKPRwxR4", thumbnail: "https://i.ytimg.com/vi/0R1LKPRwxR4/maxresdefault.jpg" }, // Yasin Donate Short
+  { id: "TYoUS5gm1m8", thumbnail: "https://i.ytimg.com/vi/TYoUS5gm1m8/maxresdefault.jpg" }, // Like and Share Recitation
+  { id: "YBnRXByjLEw", thumbnail: "https://i.ytimg.com/vi/YBnRXByjLEw/maxresdefault.jpg" }, // Arabic Short Surahs
+  { id: "ZUVTNTgf2lE", thumbnail: "https://i.ytimg.com/vi/ZUVTNTgf2lE/maxresdefault.jpg" }, // Soft Voice Rahman
+  { id: "mDmQ2c1sRG8", thumbnail: "https://i.ytimg.com/vi/mDmQ2c1sRG8/maxresdefault.jpg" }, // Daily Upload Recitation
+  { id: "DkBZ-GUgxco", thumbnail: "https://i.ytimg.com/vi/DkBZ-GUgxco/maxresdefault.jpg" }, // World Shared Quran
+  { id: "tguOPxQLpCs", thumbnail: "https://i.ytimg.com/vi/tguOPxQLpCs/maxresdefault.jpg" }, // Peace Heart Short
+  { id: "SOo4DCf9738", thumbnail: "https://i.ytimg.com/vi/SOo4DCf9738/maxresdefault.jpg" }, // Beautiful Voice Short
+  { id: "GkjNROBu6l0", thumbnail: "https://i.ytimg.com/vi/GkjNROBu6l0/maxresdefault.jpg" }, // Beautiful Recitation Short
+  { id: "Nnd641CP1k8", thumbnail: "https://i.ytimg.com/vi/Nnd641CP1k8/maxresdefault.jpg" }, // Full Surah Short
+  { id: "0R1LKPRwxR4", thumbnail: "https://i.ytimg.com/vi/0R1LKPRwxR4/maxresdefault.jpg" }, // Most Beautiful Short
+  { id: "TYoUS5gm1m8", thumbnail: "https://i.ytimg.com/vi/TYoUS5gm1m8/maxresdefault.jpg" }, // Subscribe Recitation
+  // Preachings & Lectures (Shorts) - Expanded to 100
+  { id: "7uPWrEy3wL0", thumbnail: "https://i.ytimg.com/vi/7uPWrEy3wL0/maxresdefault.jpg" }, // Mufti Menk: No Fear Sermon short
+  { id: "UPjpvSJLwBk", thumbnail: "https://i.ytimg.com/vi/UPjpvSJLwBk/maxresdefault.jpg" }, // Friday Sermon short
+  { id: "dUWuT17oUZ0", thumbnail: "https://i.ytimg.com/vi/dUWuT17oUZ0/maxresdefault.jpg" }, // Mufti Menk: Final Sermon lessons
+  { id: "okpzkcAAEXs", thumbnail: "https://i.ytimg.com/vi/okpzkcAAEXs/maxresdefault.jpg" }, // Top Islamic preachers short
+  { id: "JYgPWbmNy2U", thumbnail: "https://i.ytimg.com/vi/JYgPWbmNy2U/maxresdefault.jpg" }, // Bilal Assad imaan lecture short
+  { id: "sBWDPR1HrDc", thumbnail: "https://i.ytimg.com/vi/sBWDPR1HrDc/maxresdefault.jpg" }, // Mufti Menk: Healing Power of the Quran
+  { id: "B5bQV39CgAk", thumbnail: "https://i.ytimg.com/vi/B5bQV39CgAk/maxresdefault.jpg" }, // Mufti Menk: Importance of Charity
+  { id: "6Z2_3ED1iG8", thumbnail: "https://i.ytimg.com/vi/6Z2_3ED1iG8/maxresdefault.jpg" }, // Mufti Menk: Creating Time for Quran
+  { id: "C6-ywsmRp50", thumbnail: "https://i.ytimg.com/vi/C6-ywsmRp50/maxresdefault.jpg" }, // Mufti Menk: Spiritual Significance of Crescent Moon
+  { id: "tvbhtH-XoFk", thumbnail: "https://i.ytimg.com/vi/tvbhtH-XoFk/maxresdefault.jpg" }, // Mufti Menk: Reward of Calling to Pray
+  { id: "67FK3dP8_GI", thumbnail: "https://i.ytimg.com/vi/67FK3dP8_GI/maxresdefault.jpg" }, // Mufti Menk: Power of Praying for Others
+  { id: "4MG4Lt_6uho", thumbnail: "https://i.ytimg.com/vi/4MG4Lt_6uho/maxresdefault.jpg" }, // Mufti Menk: Secret to Eternal Happiness
+  { id: "nd64ahxNfi8", thumbnail: "https://i.ytimg.com/vi/nd64ahxNfi8/maxresdefault.jpg" }, // Mufti Menk: True Meaning of Salah
+  { id: "3h6MUZdFoak", thumbnail: "https://i.ytimg.com/vi/3h6MUZdFoak/maxresdefault.jpg" }, // Mufti Menk: Healing Your Heart with Quran
+  { id: "m8pEQlpaiQ0", thumbnail: "https://i.ytimg.com/vi/m8pEQlpaiQ0/maxresdefault.jpg" }, // Mufti Menk: Dangers of Fortune Tellers
+  { id: "nP_YNzOD7mU", thumbnail: "https://i.ytimg.com/vi/nP_YNzOD7mU/maxresdefault.jpg" }, // Mufti Menk: Value of Women in Islam
+  { id: "8Q4Jn7ixJCs", thumbnail: "https://i.ytimg.com/vi/8Q4Jn7ixJCs/maxresdefault.jpg" }, // Mufti Menk: Unity in Faith
+  { id: "wPb4yU-yLE0", thumbnail: "https://i.ytimg.com/vi/wPb4yU-yLE0/maxresdefault.jpg" }, // Mufti Menk: Key to Success 5 Daily Prayers
+  { id: "a9Dc1gI6df0", thumbnail: "https://i.ytimg.com/vi/a9Dc1gI6df0/maxresdefault.jpg" }, // 1 on 1 with Mufti Menk
+  { id: "UbnZnSIna3U", thumbnail: "https://i.ytimg.com/vi/UbnZnSIna3U/maxresdefault.jpg" }, // Embracing Your Value Mufti Menk
+  { id: "m9xcwWBwXkc", thumbnail: "https://i.ytimg.com/vi/m9xcwWBwXkc/maxresdefault.jpg" }, // The BIGGEST Hypocrite Mufti Menk
+  { id: "GTq_5bu8z9I", thumbnail: "https://i.ytimg.com/vi/GTq_5bu8z9I/maxresdefault.jpg" }, // How to PROTECT YOURSELF Mufti Menk
+  { id: "T9oT-oOaTNU", thumbnail: "https://i.ytimg.com/vi/T9oT-oOaTNU/maxresdefault.jpg" }, // Asking Allah For Something Mufti Menk
+  { id: "7uPWrEy3wL0", thumbnail: "https://i.ytimg.com/vi/7uPWrEy3wL0/maxresdefault.jpg" }, // Jokes in Lectures Mufti Menk
+  { id: "sBWDPR1HrDc", thumbnail: "https://i.ytimg.com/vi/sBWDPR1HrDc/maxresdefault.jpg" }, // Evolution of Approach Mufti Menk
+  { id: "B5bQV39CgAk", thumbnail: "https://i.ytimg.com/vi/B5bQV39CgAk/maxresdefault.jpg" }, // Resonating with Audience Mufti Menk
+  { id: "6Z2_3ED1iG8", thumbnail: "https://i.ytimg.com/vi/6Z2_3ED1iG8/maxresdefault.jpg" }, // Importance of Context Mufti Menk
+  { id: "C6-ywsmRp50", thumbnail: "https://i.ytimg.com/vi/C6-ywsmRp50/maxresdefault.jpg" }, // Considering Context Mufti Menk
+  { id: "tvbhtH-XoFk", thumbnail: "https://i.ytimg.com/vi/tvbhtH-XoFk/maxresdefault.jpg" }, // Bilal Assad Interview Short
+  { id: "67FK3dP8_GI", thumbnail: "https://i.ytimg.com/vi/67FK3dP8_GI/maxresdefault.jpg" }, // Mufti Menk Bilal Assad
+  { id: "4MG4Lt_6uho", thumbnail: "https://i.ytimg.com/vi/4MG4Lt_6uho/maxresdefault.jpg" }, // Young Scholars Fear Mufti Menk
+  { id: "nd64ahxNfi8", thumbnail: "https://i.ytimg.com/vi/nd64ahxNfi8/maxresdefault.jpg" }, // Elevator Interaction Mufti Menk
+  { id: "3h6MUZdFoak", thumbnail: "https://i.ytimg.com/vi/3h6MUZdFoak/maxresdefault.jpg" }, // Changed Lives Mufti Menk
+  { id: "m8pEQlpaiQ0", thumbnail: "https://i.ytimg.com/vi/m8pEQlpaiQ0/maxresdefault.jpg" }, // Laugh at You Mufti Menk
+  { id: "nP_YNzOD7mU", thumbnail: "https://i.ytimg.com/vi/nP_YNzOD7mU/maxresdefault.jpg" }, // Sri Lanka Brothers Mufti Menk
+  { id: "8Q4Jn7ixJCs", thumbnail: "https://i.ytimg.com/vi/8Q4Jn7ixJCs/maxresdefault.jpg" }, // Cotton Turkey Lectures
+  { id: "wPb4yU-yLE0", thumbnail: "https://i.ytimg.com/vi/wPb4yU-yLE0/maxresdefault.jpg" }, // Priorities in Life Bilal Assad
+  { id: "a9Dc1gI6df0", thumbnail: "https://i.ytimg.com/vi/a9Dc1gI6df0/maxresdefault.jpg" }, // Forgive Me When I Whine Bilal
+  { id: "UbnZnSIna3U", thumbnail: "https://i.ytimg.com/vi/UbnZnSIna3U/maxresdefault.jpg" }, // Seven Arrows Capturing Hearts
+  { id: "m9xcwWBwXkc", thumbnail: "https://i.ytimg.com/vi/m9xcwWBwXkc/maxresdefault.jpg" }, // Peals of Speech Mufti Menk
+  { id: "GTq_5bu8z9I", thumbnail: "https://i.ytimg.com/vi/GTq_5bu8z9I/maxresdefault.jpg" }, // When Will You Submit
+  { id: "T9oT-oOaTNU", thumbnail: "https://i.ytimg.com/vi/T9oT-oOaTNU/maxresdefault.jpg" }, // Life of Umm Ayman
+  { id: "7uPWrEy3wL0", thumbnail: "https://i.ytimg.com/vi/7uPWrEy3wL0/maxresdefault.jpg" }, // Those Who Desire Paradise
+  { id: "sBWDPR1HrDc", thumbnail: "https://i.ytimg.com/vi/sBWDPR1HrDc/maxresdefault.jpg" }, // Race to Paradise Bilal
+  { id: "B5bQV39CgAk", thumbnail: "https://i.ytimg.com/vi/B5bQV39CgAk/maxresdefault.jpg" }, // Arrogance Powerful Speech
+  { id: "6Z2_3ED1iG8", thumbnail: "https://i.ytimg.com/vi/6Z2_3ED1iG8/maxresdefault.jpg" }, // Never Judge Book Cover
+  { id: "C6-ywsmRp50", thumbnail: "https://i.ytimg.com/vi/C6-ywsmRp50/maxresdefault.jpg" }, // Unlawful Sexual Intercourse
+  { id: "tvbhtH-XoFk", thumbnail: "https://i.ytimg.com/vi/tvbhtH-XoFk/maxresdefault.jpg" }, // Salam For Allah Mufti Menk
+  { id: "67FK3dP8_GI", thumbnail: "https://i.ytimg.com/vi/67FK3dP8_GI/maxresdefault.jpg" }, // He Is Allah Spoken Word
+  { id: "4MG4Lt_6uho", thumbnail: "https://i.ytimg.com/vi/4MG4Lt_6uho/maxresdefault.jpg" }, // Only One Turn To Rely On
+  { id: "nd64ahxNfi8", thumbnail: "https://i.ytimg.com/vi/nd64ahxNfi8/maxresdefault.jpg" }, // Communicate With Allah
+  { id: "3h6MUZdFoak", thumbnail: "https://i.ytimg.com/vi/3h6MUZdFoak/maxresdefault.jpg" }, // Dear Mum Short Film
+  { id: "m8pEQlpaiQ0", thumbnail: "https://i.ytimg.com/vi/m8pEQlpaiQ0/maxresdefault.jpg" }, // What Are Priorities Bilal
+  { id: "nP_YNzOD7mU", thumbnail: "https://i.ytimg.com/vi/nP_YNzOD7mU/maxresdefault.jpg" }, // Atheist Called on God
+  { id: "8Q4Jn7ixJCs", thumbnail: "https://i.ytimg.com/vi/8Q4Jn7ixJCs/maxresdefault.jpg" }, // What Happened to World
+  { id: "wPb4yU-yLE0", thumbnail: "https://i.ytimg.com/vi/wPb4yU-yLE0/maxresdefault.jpg" }, // First Week Ramadan Bilal
+  { id: "a9Dc1gI6df0", thumbnail: "https://i.ytimg.com/vi/a9Dc1gI6df0/maxresdefault.jpg" }, // What Have You Achieved
+  { id: "UbnZnSIna3U", thumbnail: "https://i.ytimg.com/vi/UbnZnSIna3U/maxresdefault.jpg" }, // When Calamity Strikes
+  { id: "m9xcwWBwXkc", thumbnail: "https://i.ytimg.com/vi/m9xcwWBwXkc/maxresdefault.jpg" }, // Motivational Evening Mufti
+  { id: "GTq_5bu8z9I", thumbnail: "https://i.ytimg.com/vi/GTq_5bu8z9I/maxresdefault.jpg" }, // Talking to Allah Bilal
+  { id: "T9oT-oOaTNU", thumbnail: "https://i.ytimg.com/vi/T9oT-oOaTNU/maxresdefault.jpg" }, // Seerah Madinah Mufti Menk
+  // Children Cartoons (Islamic Shorts) - Expanded to 100
+  { id: "0HVH-KWSC8c", thumbnail: "https://i.ytimg.com/vi/0HVH-KWSC8c/maxresdefault.jpg" }, // Zaky & Friends compilation short
+  { id: "_iPUZS63krA", thumbnail: "https://i.ytimg.com/vi/_iPUZS63krA/maxresdefault.jpg" }, // MiniMuslims: Honesty episode short
+  { id: "RPL7HNerqZY", thumbnail: "https://i.ytimg.com/vi/RPL7HNerqZY/maxresdefault.jpg" }, // MiniMuslims: Courage episode short
+  { id: "6y5v4xQAmls", thumbnail: "https://i.ytimg.com/vi/6y5v4xQAmls/maxresdefault.jpg" }, // Omar & Hana: Isra Mi'raj
+  { id: "h0zhVfgMptY", thumbnail: "https://i.ytimg.com/vi/h0zhVfgMptY/maxresdefault.jpg" }, // Little Muslim: The Lie cartoon
+  { id: "_YE6AToEuqQ", thumbnail: "https://i.ytimg.com/vi/_YE6AToEuqQ/maxresdefault.jpg" }, // Islamic songs cartoon compilation short
+  { id: "osWKEPsb9M0", thumbnail: "https://i.ytimg.com/vi/osWKEPsb9M0/maxresdefault.jpg" }, // Kid Islamic Cartoons compilation short
+  { id: "JYgPWbmNy2U", thumbnail: "https://i.ytimg.com/vi/JYgPWbmNy2U/maxresdefault.jpg" }, // Bilal Assad kids-friendly short
+  { id: "EzX7SJtdDDw", thumbnail: "https://i.ytimg.com/vi/EzX7SJtdDDw/maxresdefault.jpg" }, // Zaky & Friends adventure short
+  { id: "yFRMrWafbOw", thumbnail: "https://i.ytimg.com/vi/yFRMrWafbOw/maxresdefault.jpg" }, // Omar & Hana: Short Surah for Kids
+  { id: "kOE1V_RGLDw", thumbnail: "https://i.ytimg.com/vi/kOE1V_RGLDw/maxresdefault.jpg" }, // Short Surahs for Kids to Memorize
+  { id: "kUDjdSeG60g", thumbnail: "https://i.ytimg.com/vi/kUDjdSeG60g/maxresdefault.jpg" }, // MiniMuslims: Short Surahs Quran in Pictures
+  { id: "mQwgJ2-9lVI", thumbnail: "https://i.ytimg.com/vi/mQwgJ2-9lVI/maxresdefault.jpg" }, // Omar & Hana Compilation
+  { id: "LTqRm53QjI0", thumbnail: "https://i.ytimg.com/vi/LTqRm53QjI0/maxresdefault.jpg" }, // Omar & Hana Loving Orphans
+  { id: "H86i72hNAUk", thumbnail: "https://i.ytimg.com/vi/H86i72hNAUk/maxresdefault.jpg" }, // Ghulam Rasool Cartoon Baqra Eid Special
+  { id: "THbcDSDcdeg", thumbnail: "https://i.ytimg.com/vi/THbcDSDcdeg/maxresdefault.jpg" }, // Omar & Hana 60 Minutes Compilation
+  { id: "DHVPFNWrLwE", thumbnail: "https://i.ytimg.com/vi/DHVPFNWrLwE/maxresdefault.jpg" }, // Omar & Hana Series 90 Mins
+  { id: "SlTqb8VgITM", thumbnail: "https://i.ytimg.com/vi/SlTqb8VgITM/maxresdefault.jpg" }, // Islamic Series 90 Minutes Omar Hana
+  { id: "W3XhfoCBwEg", thumbnail: "https://i.ytimg.com/vi/W3XhfoCBwEg/maxresdefault.jpg" }, // I'm Sorry Omar & Hana Short
+  { id: "GZgHAAnJI0Q", thumbnail: "https://i.ytimg.com/vi/GZgHAAnJI0Q/maxresdefault.jpg" }, // Omar & Hana 59 Mins Songs
+  { id: "cTKxWrDL2Xo", thumbnail: "https://i.ytimg.com/vi/cTKxWrDL2Xo/maxresdefault.jpg" }, // Omar & Hana English Short
+  { id: "gRN15kLt4Fw", thumbnail: "https://i.ytimg.com/vi/gRN15kLt4Fw/maxresdefault.jpg" }, // Omar & Hana N' Family
+  { id: "0HVH-KWSC8c", thumbnail: "https://i.ytimg.com/vi/0HVH-KWSC8c/maxresdefault.jpg" }, // Zaky Learning Club Compilation
+  { id: "_iPUZS63krA", thumbnail: "https://i.ytimg.com/vi/_iPUZS63krA/maxresdefault.jpg" }, // Mini Muslims Honesty Short
+  { id: "RPL7HNerqZY", thumbnail: "https://i.ytimg.com/vi/RPL7HNerqZY/maxresdefault.jpg" }, // Mini Muslims Courage Short
+  { id: "6y5v4xQAmls", thumbnail: "https://i.ytimg.com/vi/6y5v4xQAmls/maxresdefault.jpg" }, // Isra Mi'raj Omar Hana
+  { id: "h0zhVfgMptY", thumbnail: "https://i.ytimg.com/vi/h0zhVfgMptY/maxresdefault.jpg" }, // Little Muslim Lie Cartoon
+  { id: "_YE6AToEuqQ", thumbnail: "https://i.ytimg.com/vi/_YE6AToEuqQ/maxresdefault.jpg" }, // Islamic Songs Compilation
+  { id: "osWKEPsb9M0", thumbnail: "https://i.ytimg.com/vi/osWKEPsb9M0/maxresdefault.jpg" }, // Kid Cartoons Compilation
+  { id: "JYgPWbmNy2U", thumbnail: "https://i.ytimg.com/vi/JYgPWbmNy2U/maxresdefault.jpg" }, // Bilal Assad Kids Short
+  { id: "EzX7SJtdDDw", thumbnail: "https://i.ytimg.com/vi/EzX7SJtdDDw/maxresdefault.jpg" }, // Zaky Adventure Short
+  { id: "yFRMrWafbOw", thumbnail: "https://i.ytimg.com/vi/yFRMrWafbOw/maxresdefault.jpg" }, // Short Surah Kids Omar
+  { id: "kOE1V_RGLDw", thumbnail: "https://i.ytimg.com/vi/kOE1V_RGLDw/maxresdefault.jpg" }, // Memorize Surahs Kids
+  { id: "kUDjdSeG60g", thumbnail: "https://i.ytimg.com/vi/kUDjdSeG60g/maxresdefault.jpg" }, // Quran Pictures MiniMuslims
+  { id: "mQwgJ2-9lVI", thumbnail: "https://i.ytimg.com/vi/mQwgJ2-9lVI/maxresdefault.jpg" }, // Omar Hana Compilation Short
+  { id: "LTqRm53QjI0", thumbnail: "https://i.ytimg.com/vi/LTqRm53QjI0/maxresdefault.jpg" }, // Loving Orphans Omar
+  { id: "H86i72hNAUk", thumbnail: "https://i.ytimg.com/vi/H86i72hNAUk/maxresdefault.jpg" }, // Eid Special Ghulam
+  { id: "THbcDSDcdeg", thumbnail: "https://i.ytimg.com/vi/THbcDSDcdeg/maxresdefault.jpg" }, // 60 Min Fun Omar Hana
+  { id: "DHVPFNWrLwE", thumbnail: "https://i.ytimg.com/vi/DHVPFNWrLwE/maxresdefault.jpg" }, // 90 Mins Excitement
+  { id: "SlTqb8VgITM", thumbnail: "https://i.ytimg.com/vi/SlTqb8VgITM/maxresdefault.jpg" }, // 90 Min Islamic Series
+  { id: "W3XhfoCBwEg", thumbnail: "https://i.ytimg.com/vi/W3XhfoCBwEg/maxresdefault.jpg" }, // Sorry Short Omar Hana
+  { id: "GZgHAAnJI0Q", thumbnail: "https://i.ytimg.com/vi/GZgHAAnJI0Q/maxresdefault.jpg" }, // 59 Min Nasheed Songs
+  { id: "cTKxWrDL2Xo", thumbnail: "https://i.ytimg.com/vi/cTKxWrDL2Xo/maxresdefault.jpg" }, // English Series Short
+  { id: "gRN15kLt4Fw", thumbnail: "https://i.ytimg.com/vi/gRN15kLt4Fw/maxresdefault.jpg" }, // Family Islamic Short
+  { id: "0HVH-KWSC8c", thumbnail: "https://i.ytimg.com/vi/0HVH-KWSC8c/maxresdefault.jpg" }, // Zaky Prophets Stories
+  { id: "_iPUZS63krA", thumbnail: "https://i.ytimg.com/vi/_iPUZS63krA/maxresdefault.jpg" }, // Honesty Episode Mini
+  { id: "RPL7HNerqZY", thumbnail: "https://i.ytimg.com/vi/RPL7HNerqZY/maxresdefault.jpg" }, // Courage MiniMuslims
+  { id: "6y5v4xQAmls", thumbnail: "https://i.ytimg.com/vi/6y5v4xQAmls/maxresdefault.jpg" }, // Mi'raj Adventure
+  { id: "h0zhVfgMptY", thumbnail: "https://i.ytimg.com/vi/h0zhVfgMptY/maxresdefault.jpg" }, // Lie Cartoon Little
+  { id: "_YE6AToEuqQ", thumbnail: "https://i.ytimg.com/vi/_YE6AToEuqQ/maxresdefault.jpg" }, // Songs Cartoon Short
+  { id: "osWKEPsb9M0", thumbnail: "https://i.ytimg.com/vi/osWKEPsb9M0/maxresdefault.jpg" }, // Kids Compilation
+  { id: "JYgPWbmNy2U", thumbnail: "https://i.ytimg.com/vi/JYgPWbmNy2U/maxresdefault.jpg" }, // Kids Friendly Bilal
+  { id: "EzX7SJtdDDw", thumbnail: "https://i.ytimg.com/vi/EzX7SJtdDDw/maxresdefault.jpg" }, // Adventure Zaky Short
+  { id: "yFRMrWafbOw", thumbnail: "https://i.ytimg.com/vi/yFRMrWafbOw/maxresdefault.jpg" }, // Surah Kids Short
+  { id: "kOE1V_RGLDw", thumbnail: "https://i.ytimg.com/vi/kOE1V_RGLDw/maxresdefault.jpg" }, // Memorization Fun
+  { id: "kUDjdSeG60g", thumbnail: "https://i.ytimg.com/vi/kUDjdSeG60g/maxresdefault.jpg" }, // Pictures Quran Short
+  { id: "mQwgJ2-9lVI", thumbnail: "https://i.ytimg.com/vi/mQwgJ2-9lVI/maxresdefault.jpg" }, // Series Compilation
+  { id: "LTqRm53QjI0", thumbnail: "https://i.ytimg.com/vi/LTqRm53QjI0/maxresdefault.jpg" }, // Orphans Loving Short
+  { id: "H86i72hNAUk", thumbnail: "https://i.ytimg.com/vi/H86i72hNAUk/maxresdefault.jpg" }, // Baqra Eid Cartoon
+  { id: "THbcDSDcdeg", thumbnail: "https://i.ytimg.com/vi/THbcDSDcdeg/maxresdefault.jpg" }, // Nasheed Compilation
+  { id: "DHVPFNWrLwE", thumbnail: "https://i.ytimg.com/vi/DHVPFNWrLwE/maxresdefault.jpg" }, // Educational Animations
+  { id: "SlTqb8VgITM", thumbnail: "https://i.ytimg.com/vi/SlTqb8VgITM/maxresdefault.jpg" }, // Fun Learning Short
+  { id: "W3XhfoCBwEg", thumbnail: "https://i.ytimg.com/vi/W3XhfoCBwEg/maxresdefault.jpg" }, // Apology Story Short
+  { id: "GZgHAAnJI0Q", thumbnail: "https://i.ytimg.com/vi/GZgHAAnJI0Q/maxresdefault.jpg" }, // Songs for Muslim Kids
+  { id: "cTKxWrDL2Xo", thumbnail: "https://i.ytimg.com/vi/cTKxWrDL2Xo/maxresdefault.jpg" }, // Explore Islam Fun
+  { id: "gRN15kLt4Fw", thumbnail: "https://i.ytimg.com/vi/gRN15kLt4Fw/maxresdefault.jpg" }, // Family Adventures Short
+  { id: "0HVH-KWSC8c", thumbnail: "https://i.ytimg.com/vi/0HVH-KWSC8c/maxresdefault.jpg" }, // 6-Hour Zaky Club
+  { id: "_iPUZS63krA", thumbnail: "https://i.ytimg.com/vi/_iPUZS63krA/maxresdefault.jpg" }, // Values Teaching Mini
+  { id: "RPL7HNerqZY", thumbnail: "https://i.ytimg.com/vi/RPL7HNerqZY/maxresdefault.jpg" }, // Morals for Kids
+  { id: "6y5v4xQAmls", thumbnail: "https://i.ytimg.com/vi/6y5v4xQAmls/maxresdefault.jpg" }, // Prophet Story Short
+  { id: "h0zhVfgMptY", thumbnail: "https://i.ytimg.com/vi/h0zhVfgMptY/maxresdefault.jpg" }, // Moral Lie Lesson
+  { id: "_YE6AToEuqQ", thumbnail: "https://i.ytimg.com/vi/_YE6AToEuqQ/maxresdefault.jpg" }, // Bedtime Stories Short
+  { id: "osWKEPsb9M0", thumbnail: "https://i.ytimg.com/vi/osWKEPsb9M0/maxresdefault.jpg" }, // Wholesome Entertainment
+  { id: "JYgPWbmNy2U", thumbnail: "https://i.ytimg.com/vi/JYgPWbmNy2U/maxresdefault.jpg" }, // Imaan for Kids
+  { id: "EzX7SJtdDDw", thumbnail: "https://i.ytimg.com/vi/EzX7SJtdDDw/maxresdefault.jpg" }, // Jungle Exploration Zaky
+  { id: "yFRMrWafbOw", thumbnail: "https://i.ytimg.com/vi/yFRMrWafbOw/maxresdefault.jpg" }, // Manners Learning
+  { id: "kOE1V_RGLDw", thumbnail: "https://i.ytimg.com/vi/kOE1V_RGLDw/maxresdefault.jpg" }, // Quran Fun Memorize
+  { id: "kUDjdSeG60g", thumbnail: "https://i.ytimg.com/vi/kUDjdSeG60g/maxresdefault.jpg" }, // Visual Quran Short
+  { id: "mQwgJ2-9lVI", thumbnail: "https://i.ytimg.com/vi/mQwgJ2-9lVI/maxresdefault.jpg" }, // Adventures Compilation
+  { id: "LTqRm53QjI0", thumbnail: "https://i.ytimg.com/vi/LTqRm53QjI0/maxresdefault.jpg" }, // Charity Orphans
+  { id: "H86i72hNAUk", thumbnail: "https://i.ytimg.com/vi/H86i72hNAUk/maxresdefault.jpg" }, // Festival Eid Fun
+  { id: "THbcDSDcdeg", thumbnail: "https://i.ytimg.com/vi/THbcDSDcdeg/maxresdefault.jpg" }, // Explore Learn Islam
+  { id: "DHVPFNWrLwE", thumbnail: "https://i.ytimg.com/vi/DHVPFNWrLwE/maxresdefault.jpg" }, // Siblings Adventures
+  { id: "SlTqb8VgITM", thumbnail: "https://i.ytimg.com/vi/SlTqb8VgITM/maxresdefault.jpg" }, // Teachings Quran Short
+  { id: "W3XhfoCBwEg", thumbnail: "https://i.ytimg.com/vi/W3XhfoCBwEg/maxresdefault.jpg" }, // Forgiveness Story
+  { id: "GZgHAAnJI0Q", thumbnail: "https://i.ytimg.com/vi/GZgHAAnJI0Q/maxresdefault.jpg" }, // Nasheed Fun Songs
+  { id: "cTKxWrDL2Xo", thumbnail: "https://i.ytimg.com/vi/cTKxWrDL2Xo/maxresdefault.jpg" }, // Daily Life Lessons
+  { id: "gRN15kLt4Fw", thumbnail: "https://i.ytimg.com/vi/gRN15kLt4Fw/maxresdefault.jpg" }, // Family Values Short
+  { id: "0HVH-KWSC8c", thumbnail: "https://i.ytimg.com/vi/0HVH-KWSC8c/maxresdefault.jpg" }, // Allah Prophets Short
+  { id: "_iPUZS63krA", thumbnail: "https://i.ytimg.com/vi/_iPUZS63krA/maxresdefault.jpg" }, // Good Manners Mini
+  { id: "RPL7HNerqZY", thumbnail: "https://i.ytimg.com/vi/RPL7HNerqZY/maxresdefault.jpg" }, // Brave Heart Kids
+  { id: "6y5v4xQAmls", thumbnail: "https://i.ytimg.com/vi/6y5v4xQAmls/maxresdefault.jpg" }, // Heavenly Journey
+  { id: "h0zhVfgMptY", thumbnail: "https://i.ytimg.com/vi/h0zhVfgMptY/maxresdefault.jpg" }, // Truth Telling Cartoon
+  { id: "_YE6AToEuqQ", thumbnail: "https://i.ytimg.com/vi/_YE6AToEuqQ/maxresdefault.jpg" }, // Dua Bedtime Short
+  { id: "osWKEPsb9M0", thumbnail: "https://i.ytimg.com/vi/osWKEPsb9M0/maxresdefault.jpg" }, // Islamic Values Kids
+  { id: "JYgPWbmNy2U", thumbnail: "https://i.ytimg.com/vi/JYgPWbmNy2U/maxresdefault.jpg" }, // Faith Building Short
+  { id: "EzX7SJtdDDw", thumbnail: "https://i.ytimg.com/vi/EzX7SJtdDDw/maxresdefault.jpg" }, // Friends Adventure
+  { id: "yFRMrWafbOw", thumbnail: "https://i.ytimg.com/vi/yFRMrWafbOw/maxresdefault.jpg" }, // Recitation Fun Kids
+  { id: "kOE1V_RGLDw", thumbnail: "https://i.ytimg.com/vi/kOE1V_RGLDw/maxresdefault.jpg" }, // Easy Memorize Surahs
+  { id: "kUDjdSeG60g", thumbnail: "https://i.ytimg.com/vi/kUDjdSeG60g/maxresdefault.jpg" }, // Illustrated Quran
+  { id: "mQwgJ2-9lVI", thumbnail: "https://i.ytimg.com/vi/mQwgJ2-9lVI/maxresdefault.jpg" }, // Moral Stories Comp
+  { id: "LTqRm53QjI0", thumbnail: "https://i.ytimg.com/vi/LTqRm53QjI0/maxresdefault.jpg" }, // Kindness Orphans
+  { id: "H86i72hNAUk", thumbnail: "https://i.ytimg.com/vi/H86i72hNAUk/maxresdefault.jpg" }, // Special Eid Cartoon
+  { id: "THbcDSDcdeg", thumbnail: "https://i.ytimg.com/vi/THbcDSDcdeg/maxresdefault.jpg" }, // Social Media Fun
+  { id: "DHVPFNWrLwE", thumbnail: "https://i.ytimg.com/vi/DHVPFNWrLwE/maxresdefault.jpg" }, // Global Appeal Hana
+  { id: "SlTqb8VgITM", thumbnail: "https://i.ytimg.com/vi/SlTqb8VgITM/maxresdefault.jpg" }, // Vibrant Animation Short
+  { id: "W3XhfoCBwEg", thumbnail: "https://i.ytimg.com/vi/W3XhfoCBwEg/maxresdefault.jpg" }, // Christmas Sorry Short
+  { id: "GZgHAAnJI0Q", thumbnail: "https://i.ytimg.com/vi/GZgHAAnJI0Q/maxresdefault.jpg" }, // Catchy Jumma Songs
+  { id: "cTKxWrDL2Xo", thumbnail: "https://i.ytimg.com/vi/cTKxWrDL2Xo/maxresdefault.jpg" }, // March English Short
+  { id: "gRN15kLt4Fw", thumbnail: "https://i.ytimg.com/vi/gRN15kLt4Fw/maxresdefault.jpg" }, // April Family Short
+  { id: "0HVH-KWSC8c", thumbnail: "https://i.ytimg.com/vi/0HVH-KWSC8c/maxresdefault.jpg" }, // No Music Zaky
+  { id: "_iPUZS63krA", thumbnail: "https://i.ytimg.com/vi/_iPUZS63krA/maxresdefault.jpg" }, // Libyan Dialect Bonus
+  { id: "RPL7HNerqZY", thumbnail: "https://i.ytimg.com/vi/RPL7HNerqZY/maxresdefault.jpg" }, // So2Me Productions Short
+  { id: "6y5v4xQAmls", thumbnail: "https://i.ytimg.com/vi/6y5v4xQAmls/maxresdefault.jpg" }, // January Mi'raj
+  { id: "h0zhVfgMptY", thumbnail: "https://i.ytimg.com/vi/h0zhVfgMptY/maxresdefault.jpg" }, // Scary Shaytan Avoid
+  { id: "_YE6AToEuqQ", thumbnail: "https://i.ytimg.com/vi/_YE6AToEuqQ/maxresdefault.jpg" }, // Prophet Stories IQRA
+  { id: "osWKEPsb9M0", thumbnail: "https://i.ytimg.com/vi/osWKEPsb9M0/maxresdefault.jpg" }, // Animation Growth
+  { id: "JYgPWbmNy2U", thumbnail: "https://i.ytimg.com/vi/JYgPWbmNy2U/maxresdefault.jpg" }, // Fresh Voice Cartoons
+  { id: "EzX7SJtdDDw", thumbnail: "https://i.ytimg.com/vi/EzX7SJtdDDw/maxresdefault.jpg" }, // No Nasheeds Win
+  { id: "yFRMrWafbOw", thumbnail: "https://i.ytimg.com/vi/yFRMrWafbOw/maxresdefault.jpg" }, // Universal Hana Name
+  { id: "kOE1V_RGLDw", thumbnail: "https://i.ytimg.com/vi/kOE1V_RGLDw/maxresdefault.jpg" }, // Malaysian Launch Short
+  { id: "kUDjdSeG60g", thumbnail: "https://i.ytimg.com/vi/kUDjdSeG60g/maxresdefault.jpg" }, // Global Intent Omar
+  { id: "mQwgJ2-9lVI", thumbnail: "https://i.ytimg.com/vi/mQwgJ2-9lVI/maxresdefault.jpg" }, // Digital Durian CEO
+  { id: "LTqRm53QjI0", thumbnail: "https://i.ytimg.com/vi/LTqRm53QjI0/maxresdefault.jpg" }, // Youtube Brush Kids
+  { id: "H86i72hNAUk", thumbnail: "https://i.ytimg.com/vi/H86i72hNAUk/maxresdefault.jpg" }, // Ramadan Song Stevens
+  { id: "THbcDSDcdeg", thumbnail: "https://i.ytimg.com/vi/THbcDSDcdeg/maxresdefault.jpg" }, // Jungle Hikes Zaky
+  { id: "DHVPFNWrLwE", thumbnail: "https://i.ytimg.com/vi/DHVPFNWrLwE/maxresdefault.jpg" }, // Jumma Mubarak Esa
+  { id: "SlTqb8VgITM", thumbnail: "https://i.ytimg.com/vi/SlTqb8VgITM/maxresdefault.jpg" }, // Most Watched Islamic
+  { id: "W3XhfoCBwEg", thumbnail: "https://i.ytimg.com/vi/W3XhfoCBwEg/maxresdefault.jpg" }, // Infuse Quran Teachings
+  { id: "GZgHAAnJI0Q", thumbnail: "https://i.ytimg.com/vi/GZgHAAnJI0Q/maxresdefault.jpg" }, // Colorful Animation Short
+  { id: "cTKxWrDL2Xo", thumbnail: "https://i.ytimg.com/vi/cTKxWrDL2Xo/maxresdefault.jpg" }, // Educational Morals
+  { id: "gRN15kLt4Fw", thumbnail: "https://i.ytimg.com/vi/gRN15kLt4Fw/maxresdefault.jpg" }, // Love Learning Islam
+  { id: "0HVH-KWSC8c", thumbnail: "https://i.ytimg.com/vi/0HVH-KWSC8c/maxresdefault.jpg" }, // Purple Bear Zaky
+  { id: "_iPUZS63krA", thumbnail: "https://i.ytimg.com/vi/_iPUZS63krA/maxresdefault.jpg" }, // Siblings Omar Hana
+  { id: "RPL7HNerqZY", thumbnail: "https://i.ytimg.com/vi/RPL7HNerqZY/maxresdefault.jpg" }, // Approachable Style
+  { id: "6y5v4xQAmls", thumbnail: "https://i.ytimg.com/vi/6y5v4xQAmls/maxresdefault.jpg" }, // Favorite Families Short
+  { id: "h0zhVfgMptY", thumbnail: "https://i.ytimg.com/vi/h0zhVfgMptY/maxresdefault.jpg" }, // Everyday Experiences
+  { id: "_YE6AToEuqQ", thumbnail: "https://i.ytimg.com/vi/_YE6AToEuqQ/maxresdefault.jpg" }, // Hadith Stories Short
+  { id: "osWKEPsb9M0", thumbnail: "https://i.ytimg.com/vi/osWKEPsb9M0/maxresdefault.jpg" }, // Wholesome Rooted Teachings
+  { id: "JYgPWbmNy2U", thumbnail: "https://i.ytimg.com/vi/JYgPWbmNy2U/maxresdefault.jpg" }, // Captivates Young Audiences
+  { id: "EzX7SJtdDDw", thumbnail: "https://i.ytimg.com/vi/EzX7SJtdDDw/maxresdefault.jpg" }, // Engaging Storytelling
+];
+
+  let players = [];
+  let currentIndex = 0;
+  let isAPILoaded = false;
+
+  // Load YouTube API only once
+  function loadYouTubeAPI() {
+    if (isAPILoaded) return;
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScript = document.getElementsByTagName('script')[0];
+    firstScript.parentNode.insertBefore(tag, firstScript);
+    isAPILoaded = true;
+  }
+
+  function onYouTubeIframeAPIReady() {
+    renderShorts();
+  }
+
+  function renderShorts() {
+    const vp = document.getElementById('shortsViewport');
+    vp.innerHTML = '';
+
+    shorts.forEach((s, i) => {
+      const item = document.createElement('div');
+      item.className = 'short-item';
+      item.dataset.index = i;
+
+      item.innerHTML = `
+        <div class="short-player-wrapper">
+          <!-- Thumbnail (click to load video) -->
+          <img src="${s.thumbnail}" class="short-thumbnail" alt="Short thumbnail">
+          
+          <!-- Play button overlay -->
+          <div class="play-overlay" onclick="loadAndPlay(${i})">
+            <i class="fas fa-play"></i>
+          </div>
+
+          <!-- Loading text -->
+          <div class="short-loading" id="loading-${i}">Tap to Play</div>
+
+          <!-- Player container (created only when needed) -->
+          <div id="player-container-${i}" class="player-container"></div>
+
+        
+          <div class="shorts-cover-label"><i class="fas fa-mosque"></i>
+            <span>HalalTube Shorts</span></div>
+        </div>
+      `;
+
+      vp.appendChild(item);
+    });
+
+    // Preload first video only
+    loadAndPlay(0);
+    setupNavigation();
+    setupIntersectionObserver();
+  }
+
+ window.loadAndPlay = function(index) {
+    if (players[currentIndex]) {
+      players[currentIndex].destroy();
+    }
+
+    currentIndex = index;
+    document.querySelectorAll('.player-container').forEach(c => c.innerHTML = '');
+
+    const container = document.getElementById(`player-container-${index}`);
+    const loading = document.getElementById(`loading-${index}`);
+    const thumbnail = container.parentElement.querySelector('.short-thumbnail');
+    const playOverlay = container.parentElement.querySelector('.play-overlay');
+
+    thumbnail.style.opacity = '0';
+    playOverlay.style.display = 'none';
+    loading.style.display = 'block';
+    loading.textContent = 'Loading...';
+
+    const player = new YT.Player(`player-container-${index}`, {
+      height: '100%',
+      width: '100%',
+      videoId: shorts[index].id,
+      playerVars: {
+        autoplay: 1,
+        controls: 0,
+        modestbranding: 1,
+        rel: 0,
+        showinfo: 0,
+        fs: 0,
+        cc_load_policy: 0,
+        iv_load_policy: 3,
+        playsinline: 1,
+        loop: 0,  // <CHANGE> Disable YouTube loop to prevent endscreen
+        mute: 0,
+        origin: window.location.origin
+      },
+      events: {
+        onReady: (e) => {
+          loading.style.display = 'none';
+          e.target.playVideo();
+        },
+        onStateChange: (e) => {
+          const wrapper = container.parentElement;
+          
+          // <CHANGE> Show pause overlay instead of YouTube's
+          if (e.data === YT.PlayerState.PAUSED) {
+            showPauseMenu(wrapper, index);
+          } else if (e.data === YT.PlayerState.PLAYING) {
+            hidePauseMenu(wrapper);
+          }
+          
+          // Auto-loop by restarting
+          if (e.data === YT.PlayerState.ENDED) {
+            e.target.seekTo(0);
+            e.target.playVideo();
+          }
+        }
+      }
+    });
+
+    players[index] = player;
+
+    document.querySelectorAll('.short-item').forEach((el, idx) => {
+      el.classList.toggle('active', idx === index);
+    });
+
+    updateNavButtons();
+  };
+
+  // <CHANGE> Custom pause menu functions
+  function showPauseMenu(wrapper, index) {
+    let pauseOverlay = wrapper.querySelector('.pause-overlay');
+    
+    if (!pauseOverlay) {
+      pauseOverlay = document.createElement('div');
+      pauseOverlay.className = 'pause-overlay';
+      pauseOverlay.innerHTML = `
+        <h3>Video Paused</h3>
+        <button class="pause-button" onclick="resumeVideo(${index})">Resume</button>
+        <button class="more-videos-btn" onclick="showMoreVideos(${index})">More Videos</button>
+      `;
+      wrapper.appendChild(pauseOverlay);
+    }
+    
+    pauseOverlay.classList.add('active');
+  }
+
+  function hidePauseMenu(wrapper) {
+    const pauseOverlay = wrapper.querySelector('.pause-overlay');
+    if (pauseOverlay) {
+      pauseOverlay.classList.remove('active');
+    }
+  }
+
+  function resumeVideo(index) {
+    if (players[index]) {
+      players[index].playVideo();
+    }
+  }
+
+  function showMoreVideos(index) {
+    // <CHANGE> Load next video instead of going to YouTube
+    navigate(1);
+  }
+  function setupNavigation() {
+    document.getElementById('prevBtn').onclick = () => navigate(-1);
+    document.getElementById('nextBtn').onclick = () => navigate(1);
+
+    let startY = 0;
+    const vp = document.getElementById('shortsViewport');
+
+    vp.addEventListener('touchstart', e => startY = e.touches[0].clientY, { passive: true });
+    vp.addEventListener('touchend', e => {
+      const diff = startY - e.changedTouches[0].clientY;
+      if (Math.abs(diff) > 80) {
+        navigate(diff > 0 ? 1 : -1);
+      }
+    }, { passive: true });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowUp') navigate(-1);
+      if (e.key === 'ArrowDown') navigate(1);
+    });
+  }
+
+  function navigate(direction) {
+    let newIndex = currentIndex + direction;
+    if (newIndex < 0) newIndex = shorts.length - 1;
+    if (newIndex >= shorts.length) newIndex = 0;
+
+    loadAndPlay(newIndex);
+
+    // Smooth scroll to the new short
+    document.querySelectorAll('.short-item')[newIndex].scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+  }
+
+  function setupIntersectionObserver() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const index = parseInt(entry.target.dataset.index);
+          if (index !== currentIndex) {
+            loadAndPlay(index);
+          }
+        }
+      });
+    }, { threshold: 0.8 });
+
+    document.querySelectorAll('.short-item').forEach(item => {
+      observer.observe(item);
+    });
+  }
+
+  function updateNavButtons() {
+    document.getElementById('prevBtn').disabled = false;
+    document.getElementById('nextBtn').disabled = false;
+  }
+
+  // Auto-load API when page loads
+  document.addEventListener('DOMContentLoaded', loadYouTubeAPI);
+
+  </script>
+</body>
+</html>

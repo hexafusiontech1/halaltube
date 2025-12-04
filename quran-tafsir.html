@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HalalTube - Qur'an Tafsir Series</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- TOP NAVBAR -->
+  <div class="yt-navbar">
+    <div class="d-flex align-items-center">
+      <div class="yt-icon-btn me-2" id="slidingMenuToggle"><i class="fas fa-bars"></i></div>
+      <a href="/" class="yt-logo"><i class="fas fa-mosque text-success"></i> HalalTube <sup style="font-size:12px;">NG</sup></a>
+    </div>
+    <div class="yt-searchbar">
+      <input type="text" placeholder="Search Qur'an Tafsir videos...">
+      <button class="yt-search-btn"><i class="fas fa-search"></i></button>
+    </div>
+    <div class="yt-right-buttons">
+      <div class="yt-adhan-reminder active" id="adhanReminder">
+        <i class="fas fa-clock"></i><span>Adhan: ON</span>
+      </div>
+      <div id="countdownTimer" class="countdown-timer"></div>
+      <div class="yt-theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></div>
+    </div>
+  </div>
+
+  <!-- PRAYER NOTIFICATION -->
+  <div id="prayerNotification" class="prayer-notification" style="display:none;">
+    <button class="close-btn" onclick="closePrayerNotification()">&times;</button>
+    <div class="icon" id="notificationIcon"></div>
+    <div class="prayer-name" id="notificationPrayerName"></div>
+    <div class="quran-verse" id="notificationVerse"></div>
+    <div class="encouragement" id="notificationEncouragement"></div>
+  </div>
+  <audio id="adhanPlayer" src="https://www.islamicfinder.org/media/sounds/adhan/001.mp3"></audio>
+
+ <!-- START: Fixed Sidebar -->
+    <div class="yt-sidebar">
+        <a href="index.html" class="yt-sidebar-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="quran-tafsir.html" class="yt-sidebar-item">
+            <i class="fa-solid fa-book-quran"></i>
+            <span>Qur'an</span>
+        </a>
+        <a href="lectures-khutbahs.html" class="yt-sidebar-item">
+            <i class="fa-solid fa-microphone"></i>
+            <span>Lectures</span>
+        </a>
+        <a href="kids.html" class="yt-sidebar-item">
+            <i class="fa-solid fa-child"></i>
+            <span>Kids</span>
+        </a>
+        <a href="motivation-reminders.html" class="yt-sidebar-item">
+            <i class="fa-solid fa-moon"></i><span>Reminders</span>
+        </a>
+       <a href="shorts.html" class="yt-sidebar-item">
+    <i class="fas fa-video"></i>
+    <span>Shorts</span>
+    </a>
+        <a href="audio.html" class="yt-sidebar-item">
+            <i class="fas fa-headphones"></i>
+            <span>Halal Audio</span>
+        </a>
+        <a href="halaltube-picks.html" class="yt-sidebar-item">
+  <i class="fas fa-star text-warning"></i>
+  <span>HalalTube Picks</span>
+</a>
+
+    </div>
+    <!-- END: Fixed Sidebar -->
+
+    <!-- START: Sliding Sidebar - Hidden menu with detailed navigation options -->
+    <div class="yt-sliding-sidebar" id="slidingSidebar">
+        <div class="ht-sliding-navbar">
+            <div class="d-flex align-items-center">
+                <div class="ht-sliding-icon-btn me-2" id="slidingMenuToggleSidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <a href="/" class="ht-sliding-logo">
+                    <i class="fas fa-mosque text-success"></i> HalalTube 
+                    <sup style="font-size:12px;">NG</sup>
+                </a>
+            </div>
+        </div>
+        <hr>
+        <div class="sidebar-section-title">Categories</div>
+        <a href="index.html" class="yt-sliding-sidebar-item">
+            <i class="fas fa-home"></i><span>Home</span>
+        </a>
+        <a href="quran-tafsir.html" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-book-quran"></i><span>Qur'an & Tafsir</span>
+        </a>
+        <a href="lectures-khutbahs.html" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-microphone"></i><span>Lectures & Khutbahs</span>
+        </a>
+        <a href="kids.html" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-child"></i><span>Kids Corner</span>
+        </a>
+        <a href="motivation-reminders.html" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-moon"></i><span>Motivation & Reminders</span>
+        </a>
+        <a href="shorts.html" class="yt-sliding-sidebar-item">
+       <i class="fas fa-video"></i> <span>Shorts</span>
+      </a>
+        <a href="audio.html" class="yt-sliding-sidebar-item">
+            <i class="fas fa-headphones"></i><span>Halal Audio</span>
+        </a>
+        <a href="halaltube-picks.html" class="yt-sliding-sidebar-item">
+          <i class="fas fa-star text-warning"></i> <span>HalalTube Picks</span>
+          </a>
+        <hr>
+        <div class="sidebar-section-title">Explore</div>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-fire"></i><span>Trending</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-clock"></i><span>Latest Uploads</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-star"></i><span>Most Watched</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-bookmark"></i><span>Saved Videos</span>
+        </a>
+        <hr>
+        <div class="sidebar-section-title">Community</div>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-envelope"></i><span>Request a Video</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-flag"></i><span>Report Content</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-comment"></i><span>Feedback</span>
+        </a>
+        <hr>
+        <div class="sidebar-section-title">About</div>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-circle-info"></i><span>About HalalTube</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-shield-halved"></i><span>Halal Policy</span>
+        </a>
+        <a href="#" class="yt-sliding-sidebar-item">
+            <i class="fa-solid fa-phone"></i><span>Contact</span>
+        </a>
+    </div>
+    <!-- END: Sliding Sidebar -->
+
+ <!-- START: Tooltip -->
+  <div class="yt-overlay" id="overlay"></div>
+  <div id="ytTooltip" class="yt-tooltip"></div>
+   <!-- END: Tooltip -->
+
+
+   <!-- START: Categories Slider -->
+<div class="yt-categories">
+    <!-- Left Scroll Button -->
+    <div class="slider-nav category-prev hidden">
+        <i class="fas fa-chevron-left"></i>
+    </div>
+
+    <!-- Category Scrollable Area -->
+    <div class="yt-category-slider">
+        <a href="index.html" class="yt-category-item active">All</a>
+        <a href="quran-tafsir.html" class="yt-category-item">Qur'an & Tafsir</a>
+        <a href="lectures-khutbahs.html" class="yt-category-item">Lectures & Khutbahs</a>
+        <a href="kids.html" class="yt-category-item">Kids Corner</a>
+        <a href="motivation-reminders.html" class="yt-category-item">Motivation & Reminders</a>
+    </div>
+
+    <!-- Right Scroll Button -->
+    <div class="slider-nav category-next">
+        <i class="fas fa-chevron-right"></i>
+    </div>
+</div>
+<!-- END: Categories Slider -->
+
+
+
+  <!-- VIDEO FEED -->
+  <div class="video-feed">
+
+   <div class="video-card" data-video-id="K-X0YrHhgq0">
+    <div class="thumbnail">
+        <img src="https://img.youtube.com/vi/K-X0YrHhgq0/hqdefault.jpg" alt="Video Thumbnail">
+        <span class="video-duration">18:52</span> 
+    </div>
+    <div class="video-info">
+        <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_krQhagJlIrZIwbhRF5G4ewuxOgQzbuVJweBMhjc4dnZQU=s88-c-k-c0x00ffffff-no-rj" alt="Omar Hisham Al Arabi"> 
+        <div class="video-meta">
+            <h3 class="video-title">Surah Maryam (Be Heaven) سورة مريم — Omar Hisham Al Arabi</h3>
+            <p class="video-channel">Omar Hisham Al Arabi</p>
+        </div>
+    </div>
+</div>
+
+    <div class="video-card" data-video-id="O7jKZwfK14c">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/O7jKZwfK14c/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">1:00:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://img.youtube.com/vi/O7jKZwfK14c/hqdefault.jpg" alt="Channel Icon">
+            <div class="video-meta">
+                <h3 class="video-title">Short Surahs - 1 Hour Quran Recitation for Kids (Cartoon Animation)</h3>
+                <p class="video-channel">Muslim Kids TV</p>
+            </div>
+        </div>
+    </div>
+
+
+       <div class="video-card" data-video-id="An4Q3Z7LlIw">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/An4Q3Z7LlIw/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">45:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://img.youtube.com/vi/An4Q3Z7LlIw/hqdefault.jpg" alt="Channel Icon">
+            <div class="video-meta">
+                <h3 class="video-title">Let's Learn Quran With Zaky - Full Cartoon Movie</h3>
+                <p class="video-channel">One4Kids</p>
+            </div>
+        </div>
+    </div>
+
+
+       <div class="video-card" data-video-id="qDoyewHX1u4">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/qDoyewHX1u4/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">30:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://img.youtube.com/vi/qDoyewHX1u4/hqdefault.jpg" alt="Channel Icon">
+            <div class="video-meta">
+                <h3 class="video-title">Quran for Kids 4 - Short Surahs (Baby Cartoon Animation)</h3>
+                <p class="video-channel">Muslim Kids TV</p>
+            </div>
+        </div>
+    </div>
+
+
+<div class="video-card" data-video-id="YCZ_oMQnVmE">
+    <div class="thumbnail">
+        <img src="https://img.youtube.com/vi/YCZ_oMQnVmE/hqdefault.jpg" alt="Video Thumbnail">
+        <span class="video-duration">1:05:54</span>
+    </div>
+    <div class="video-info">
+        <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_krQhagJlIrZIwbhRF5G4ewuxOgQzbuVJweBMhjc4dnZQU=s88-c-k-c0x00ffffff-no-rj" alt="Channel Icon">
+        <div class="video-meta">
+            <h3 class="video-title">Surat Al-'Imran - Omar Hisham</h3>
+            <p class="video-channel">Omar Hisham Al Arabi</p>
+        </div>
+    </div>
+</div>
+
+
+   <div class="video-card" data-video-id="cBGEn_L_fxs">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/cBGEn_L_fxs/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">30:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://img.youtube.com/vi/cBGEn_L_fxs/hqdefault.jpg" alt="Channel Icon">
+            <div class="video-meta">
+                <h3 class="video-title">Repeat Quran For Kids | The 3 Quls - Al-Ikhlas, Al-Falaq, An-Naas</h3>
+                <p class="video-channel">MiniMuslims</p>
+            </div>
+        </div>
+    </div>
+
+
+
+     <div class="video-card" data-video-id="60z20-hYQkI">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/60z20-hYQkI/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">5:30</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://img.youtube.com/vi/60z20-hYQkI/hqdefault.jpg" alt="Channel Icon">
+            <div class="video-meta">
+                <h3 class="video-title">Surah Al-Fatihah and The Four Quls | Islamic Songs for Kids</h3>
+                <p class="video-channel">Omar & Hana</p>
+            </div>
+        </div>
+    </div>
+
+<div class="video-card" data-video-id="Z9dz6_LybSU">
+    <div class="thumbnail">
+        <img src="https://img.youtube.com/vi/Z9dz6_LybSU/hqdefault.jpg" alt="Sheikh Noreen Muhammad Siddiq">
+        <span class="video-duration">18:36</span>
+    </div>
+    <div class="video-info">
+        <img class="channel-icon" src="https://yt3.ggpht.com/9hFHB87L7XZZeXI38np9Goxt_XV8qExqIluTxWHQx1AcG-pH-kUjbBn12HXuGqRXsXljwGG9=s88-c-k-c0x00ffffff-no-rj" alt="Sheikh Noreen Muhammad Siddiq">
+        <div class="video-meta">
+            <h3 class="video-title">Sheikh Noreen Muhammad Siddiq</h3>
+            <p class="video-channel">Naqaa Studio</p>
+        </div>
+    </div>
+</div>
+    
+<div class="video-card" data-video-id="qNawBNRBM7o">
+    <div class="thumbnail">
+        <img src="https://img.youtube.com/vi/qNawBNRBM7o/hqdefault.jpg" alt="Sheikh Noreen Muhammad Siddiq">
+        <span class="video-duration">40:27</span>
+    </div>
+    <div class="video-info">
+        <img class="channel-icon" src="https://yt3.ggpht.com/9hFHB87L7XZZeXI38np9Goxt_XV8qExqIluTxWHQx1AcG-pH-kUjbBn12HXuGqRXsXljwGG9=s88-c-k-c0x00ffffff-no-rj" alt="Sheikh Noreen Muhammad Siddiq">
+        <div class="video-meta">
+            <h3 class="video-title">من أروع الروائع التراويحية | نورين محمد صديق | ليلة 21 رمضان 1440 | مجمع النور الإسلامي</h3>
+            <p class="video-channel">Naqaa Studio</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="video-card" data-video-id="ytEuJ_5AZLc">
+    <div class="thumbnail">
+        <img src="https://img.youtube.com/vi/ytEuJ_5AZLc/hqdefault.jpg" alt="Sheikh Noreen Muhammad Siddiq">
+        <span class="video-duration">7:25:00</span>
+    </div>
+    <div class="video-info">
+        <img class="channel-icon" src="https://yt3.ggpht.com/9hFHB87L7XZZeXI38np9Goxt_XV8qExqIluTxWHQx1AcG-pH-kUjbBn12HXuGqRXsXljwGG9=s88-c-k-c0x00ffffff-no-rj" alt="Sheikh Noreen Muhammad Siddiq">
+        <div class="video-meta">
+            <h3 class="video-title">من أروع الروائع التراويحية | نورين محمد صديق | ليلة 21 رمضان 1440 | مجمع النور الإسلامي</h3>
+            <p class="video-channel">Naqaa Studio</p>
+        </div>
+    </div>
+</div>
+
+   
+<div class="video-card" data-video-id="_zZmKMac8wE">
+    <div class="thumbnail">
+        <img src="https://img.youtube.com/vi/_zZmKMac8wE/hqdefault.jpg" alt="Morning Dua - Omar Hisham Al Arabi">
+        <span class="video-duration">27:31</span>
+    </div>
+    <div class="video-info">
+        <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_krQhagJlIrZIwbhRF5G4ewuxOgQzbuVJweBMhjc4dnZQU=s88-c-k-c0x00ffffff-no-rj" alt="Omar Hisham Al Arabi">
+        <div class="video-meta">
+            <h3 class="video-title">Morning Dua in Full أذكار الصباح كاملة | Omar Hisham Al Arabi 2025</h3>
+            <p class="video-channel">Omar Hisham Al Arabi</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="video-card" data-video-id="GkjNROBu6l0">
+    <div class="thumbnail">
+        <img src="https://img.youtube.com/vi/GkjNROBu6l0/hqdefault.jpg" alt="Surah Yasin - Mishary Rashid Alafasy">
+        <span class="video-duration">25:00</span>
+    </div>
+    <div class="video-info">
+        <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_mZ3Z3Z3Z3Z3Z3Z3Z3Z3Z3Z3Z3Z3Z3Z3Z3Z3=s88-c-k-c0x00ffffff-no-rj" alt="Mishary Rashid Alafasy">
+        <div class="video-meta">
+            <h3 class="video-title">Surah Yasin Full | Mishary Rashid Alafasy | Emotional Healing Recitation 2025</h3>
+            <p class="video-channel">Mishary Rashid Alafasy</p>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+    <div class="video-card" data-video-id="ZUVTNTgf2lE">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/ZUVTNTgf2lE/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">15:30</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_jg1234567890=s88-c-k-c0x00ffffff-no-rj" alt="Zikrullah TV">
+            <div class="video-meta">
+                <h3 class="video-title">SURAH RAHMAN سورة الرحمن | RELAXING QURAN RECITATION | SOFT VOICE</h3>
+                <p class="video-channel">Zikrullah TV</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="TYoUS5gm1m8">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/TYoUS5gm1m8/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">20:45</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kabcde=s88-c-k-c0x00ffffff-no-rj" alt="Channel Icon">
+            <div class="video-meta">
+                <h3 class="video-title">Most beautiful Quran recitation || sheikh Abdul Rahman Mossad</h3>
+                <p class="video-channel">Quran Recitation</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="0R1LKPRwxR4">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/0R1LKPRwxR4/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">25:12</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_jg1234567890=s88-c-k-c0x00ffffff-no-rj" alt="Zikrullah TV">
+            <div class="video-meta">
+                <h3 class="video-title">World's most beautiful Quran recitation of Surah Yasin (Yaseen) سورة يس</h3>
+                <p class="video-channel">Zikrullah TV</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="tguOPxQLpCs">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/tguOPxQLpCs/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">1:00:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kfghij=s88-c-k-c0x00ffffff-no-rj" alt="Channel Icon">
+            <div class="video-meta">
+                <h3 class="video-title">Quran for Stress Relief And Healing | Recitation for Peace of Heart |Beautiful Quran Recitation 2025</h3>
+                <p class="video-channel">Habibullah TV</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="Nnd641CP1k8">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/Nnd641CP1k8/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">18:20</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_klmnop=s88-c-k-c0x00ffffff-no-rj" alt="Channel Icon">
+            <div class="video-meta">
+                <h3 class="video-title">Voice from Heart Beautiful Quran Recitation by Sheikh Ahmed Mokhtar | AWAZ</h3>
+                <p class="video-channel">AWAZ</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="kEGwno9c7QM">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/kEGwno9c7QM/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">10:15</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kqrstu=s88-c-k-c0x00ffffff-no-rj" alt="Channel Icon">
+            <div class="video-meta">
+                <h3 class="video-title">Aasan Quran | Surah Bani Israel With Urdu Translation Ayat 56 - 58 #quran #translation #tafsir</h3>
+                <p class="video-channel">Aasan Quran</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="mDmQ2c1sRG8">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/mDmQ2c1sRG8/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">45:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kvwxyz=s88-c-k-c0x00ffffff-no-rj" alt="Channel Icon">
+            <div class="video-meta">
+                <h3 class="video-title">ABDULRAHMAN MOSSAD || BEAUTIFUL QURAN RECITATION عبد الرحمن مصد</h3>
+                <p class="video-channel">Quran Recitation</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="DkBZ-GUgxco">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/DkBZ-GUgxco/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">10:00:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kabcde=s88-c-k-c0x00ffffff-no-rj" alt="Channel Icon">
+            <div class="video-meta">
+                <h3 class="video-title">Quran Recitation 10 Hours by Hazaa Al Belushi</h3>
+                <p class="video-channel">Hazaa Al Belushi</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="VlCj8S3oU00">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/VlCj8S3oU00/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">2:00:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kfghij=s88-c-k-c0x00ffffff-no-rj" alt="Channel Icon">
+            <div class="video-meta">
+                <h3 class="video-title">Abdulrahman Mossad 2hr recitation (no ads)</h3>
+                <p class="video-channel">Quran Recitation</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="_e2wCDwBdvo">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/_e2wCDwBdvo/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">1:15:30</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_klmnop=s88-c-k-c0x00ffffff-no-rj" alt="Channel Icon">
+            <div class="video-meta">
+                <h3 class="video-title">Quran Tafsir #17: Surah Al-Mu'minun & Surah An-Nur</h3>
+                <p class="video-channel">Tafsir Quran</p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="video-card" data-video-id="IjhQYU7eoYI">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/IjhQYU7eoYI/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">5:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Egzon Ibrahimi">
+            <div class="video-meta">
+                <h3 class="video-title">Al-Ahzab 35 in Taraweeh live 2025 - Egzon Ibrahimi beautiful Quran Recitation</h3>
+                <p class="video-channel">Egzon Ibrahimi</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="sN7Y3Urc-ZE">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/sN7Y3Urc-ZE/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">45:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Omar Hisham">
+            <div class="video-meta">
+                <h3 class="video-title">Ramadan Quran Recitation 2025 تلاوة رمضانية (1446)</h3>
+                <p class="video-channel">Omar Hisham Al Arabi</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="oA36JA6QMP4">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/oA36JA6QMP4/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">20:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Best Quran">
+            <div class="video-meta">
+                <h3 class="video-title">Best Quran recitation 2025</h3>
+                <p class="video-channel">Best Quran Recitation</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="3u96SX_6MiI">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/3u96SX_6MiI/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">15:30</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Beautiful Quran">
+            <div class="video-meta">
+                <h3 class="video-title">Beautiful Quran Recitation</h3>
+                <p class="video-channel">Beautiful Quran Recitations</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="RbczES1hNDg">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/RbczES1hNDg/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">30:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Sheikh Badr Al Bishr">
+            <div class="video-meta">
+                <h3 class="video-title">Beautiful Voice Quran Recitation | Heart Touching Quran Recitation | Sheikh Badr Al Bishr</h3>
+                <p class="video-channel">The Holy Quran Recitation</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="G7M_GS9bbng">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/G7M_GS9bbng/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">10:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Dr Zakir Naik">
+            <div class="video-meta">
+                <h3 class="video-title">THE BEST AVAILABLE TAFSEER OF THE QURAN IN ENGLISH | BY DR ZAKIR NAIK</h3>
+                <p class="video-channel">Dr Zakir Naik</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="PLS0yR427QfJ_3BIuNTtv8vWMsO2Lckdof">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/PLS0yR427QfJ_3BIuNTtv8vWMsO2Lckdof/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">2:00:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Quran Tafsir">
+            <div class="video-meta">
+                <h3 class="video-title">Juz 1 Complete English Quran Tafsir - Juz One full Tafseer</h3>
+                <p class="video-channel">Quran Garden</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="X_SNB1-uzCk">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/X_SNB1-uzCk/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">12:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Dr Zakir Naik">
+            <div class="video-meta">
+                <h3 class="video-title">The Best Tafseer of the Quran – Dr Zakir Naik</h3>
+                <p class="video-channel">Dr Zakir Naik</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="PL78F535F3CB23ACB5">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/PL78F535F3CB23ACB5/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">1:30:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Mufti Menk">
+            <div class="video-meta">
+                <h3 class="video-title">Mufti Menk Tafsir Sessions</h3>
+                <p class="video-channel">Mufti Menk</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="-mIk1zzexJU">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/-mIk1zzexJU/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">25:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Shaykh Ibrahim Zidan">
+            <div class="video-meta">
+                <h3 class="video-title">Al Quran Tafsir Quran In Depth Episode 1 introduction</h3>
+                <p class="video-channel">Huda TV</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="23w9yIX7xxk">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/23w9yIX7xxk/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">40:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Shaykh Shafiur Rahman">
+            <div class="video-meta">
+                <h3 class="video-title">English Tafsir-ul Qur'an by Shaykh Shafiur Rahman, surah Al Baqarah</h3>
+                <p class="video-channel">East London Mosque</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="DZA2jj7m6D4">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/DZA2jj7m6D4/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">8:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Dr Zakir Naik">
+            <div class="video-meta">
+                <h3 class="video-title">which is the best tafsir of quran Dr Zakir Naik</h3>
+                <p class="video-channel">Huda TV</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="PLYrSPJG_ufPjB3gMIY9YRcvrtdVFrY_49">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/PLYrSPJG_ufPjB3gMIY9YRcvrtdVFrY_49/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">3:00:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Best Recitation">
+            <div class="video-meta">
+                <h3 class="video-title">Best quran recitation voice in the world 2025</h3>
+                <p class="video-channel">Best Recitation</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="PLS0yR427QfJ9YsXHiYvxKBFsqiEVeeRYt">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/PLS0yR427QfJ9YsXHiYvxKBFsqiEVeeRYt/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">1:45:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Quran Tafsir">
+            <div class="video-meta">
+                <h3 class="video-title">First 3 Juz Quran Explained in English Best Tafsir</h3>
+                <p class="video-channel">Quran Garden</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="UCbbRnw2Va8YThW7s3UFCwkQ">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/UCbbRnw2Va8YThW7s3UFCwkQ/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">50:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Holy Quran">
+            <div class="video-meta">
+                <h3 class="video-title">Holy Quran Recitation</h3>
+                <p class="video-channel">Holy Quran Recitation</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="UCzsM15mtu0C0dOHz6fAIgwQ">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/UCzsM15mtu0C0dOHz6fAIgwQ/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">25:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="The Holy Quran">
+            <div class="video-meta">
+                <h3 class="video-title">Surah Ar Rahman | Deep Voice Quran Recitation | Sheikh Muhammad Haitham Al Khawli</h3>
+                <p class="video-channel">The Holy Quran Recitation</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="UCxCczKTWHWaaOhiosk_6e9g">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/UCxCczKTWHWaaOhiosk_6e9g/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">22:10</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="The Holy Quran">
+            <div class="video-meta">
+                <h3 class="video-title">The Holy Quran - Emotional Tilawat by Qari Abdul Rahman Mossad</h3>
+                <p class="video-channel">The Holy Quran</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="@quranrecitation4633">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/@quranrecitation4633/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">15:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Quran Recitation">
+            <div class="video-meta">
+                <h3 class="video-title">Quran Recitation Daily Beautiful Voice</h3>
+                <p class="video-channel">Quran Recitation</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="@BeautifulQuranRecitations">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/@BeautifulQuranRecitations/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">35:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Beautiful Quran">
+            <div class="video-meta">
+                <h3 class="video-title">Beautiful Quran Recitations</h3>
+                <p class="video-channel">Beautiful Quran Recitations</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="@quranicrecitations7481">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/@quranicrecitations7481/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">18:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Quranic Recitations">
+            <div class="video-meta">
+                <h3 class="video-title">Quranic Recitations</h3>
+                <p class="video-channel">Quranic Recitations</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="@RecitationOfQuran1">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/@RecitationOfQuran1/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">28:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Recitation Of Quran">
+            <div class="video-meta">
+                <h3 class="video-title">Recitation Of Quran</h3>
+                <p class="video-channel">Recitation Of Quran</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="@BestRecitation">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/@BestRecitation/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">1:00:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Best Recitation">
+            <div class="video-meta">
+                <h3 class="video-title">Best Recitation</h3>
+                <p class="video-channel">Best Recitation</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="UCSt0aY2WRfYmislQWPg47SA">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/UCSt0aY2WRfYmislQWPg47SA/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">30:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Recitation Of Quran">
+            <div class="video-meta">
+                <h3 class="video-title">Recitation Of Quran Channel</h3>
+                <p class="video-channel">Recitation Of Quran</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="UC%40quranrecitation4633">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/UC%40quranrecitation4633/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">15:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Quran Recitation">
+            <div class="video-meta">
+                <h3 class="video-title">Quran Recitation Daily Beautiful Voice</h3>
+                <p class="video-channel">Quran Recitation</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="tguOPxQLpCs">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/tguOPxQLpCs/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">1:00:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Habibullah TV">
+            <div class="video-meta">
+                <h3 class="video-title">Quran for Stress Relief And Healing | Recitation for Peace of Heart |Beautiful Quran Recitation 2025</h3>
+                <p class="video-channel">Habibullah TV</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="ZUVTNTgf2lE">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/ZUVTNTgf2lE/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">15:30</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Zikrullah TV">
+            <div class="video-meta">
+                <h3 class="video-title">SURAH RAHMAN سورة الرحمن | RELAXING QURAN RECITATION | SOFT VOICE</h3>
+                <p class="video-channel">Zikrullah TV</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="0R1LKPRwxR4">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/0R1LKPRwxR4/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">25:12</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Zikrullah TV">
+            <div class="video-meta">
+                <h3 class="video-title">World's most beautiful Quran recitation of Surah Yasin (Yaseen) سورة يس</h3>
+                <p class="video-channel">Zikrullah TV</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="PLfPaq0Tsvo5HKyez-NzUqNvtxurQRUGVV">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/PLfPaq0Tsvo5HKyez-NzUqNvtxurQRUGVV/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">2:30:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Nouman Ali Khan">
+            <div class="video-meta">
+                <h3 class="video-title">Tafsir Surah Al-Baqarah Playlist</h3>
+                <p class="video-channel">Bayyinah Institute</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="PL25AD5F33DE986868">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/PL25AD5F33DE986868/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">1:45:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Nouman Ali Khan">
+            <div class="video-meta">
+                <h3 class="video-title">Tafsir Juz Amma | Nouman Ali Khan</h3>
+                <p class="video-channel">Bayyinah Institute</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="xGAnFW-GECM">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/xGAnFW-GECM/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">35:40</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Nouman Ali Khan">
+            <div class="video-meta">
+                <h3 class="video-title">Tafsir Surah Al-Kahf | Nouman Ali Khan</h3>
+                <p class="video-channel">Bayyinah Institute</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="m3bSWAW4Nms">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/m3bSWAW4Nms/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">28:55</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Nouman Ali Khan">
+            <div class="video-meta">
+                <h3 class="video-title">Tafsir Surah Al-Mulk | Nouman Ali Khan</h3>
+                <p class="video-channel">Bayyinah Institute</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="PLS0yR427QfJ8yD8CyETOdzV_Ohyz_trpA">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/PLS0yR427QfJ8yD8CyETOdzV_Ohyz_trpA/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">3:00:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="English Tafsir">
+            <div class="video-meta">
+                <h3 class="video-title">Best English Quran Tafsir. Start Your Journey Here</h3>
+                <p class="video-channel">English Tafsir</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-card" data-video-id="PLe170Cz-ulObLQ8yKMomLtf1q1V6GtcAX">
+        <div class="thumbnail">
+            <img src="https://img.youtube.com/vi/PLe170Cz-ulObLQ8yKMomLtf1q1V6GtcAX/hqdefault.jpg" alt="Video Thumbnail">
+            <span class="video-duration">50:00</span>
+        </div>
+        <div class="video-info">
+            <img class="channel-icon" src="https://yt3.ggpht.com/ytc/AIdro_kexample=s88-c-k-c0x00ffffff-no-rj" alt="Bangla Tafsir">
+            <div class="video-meta">
+                <h3 class="video-title">Quran Recitation | তাফসিরুল কোরআন | And Bangla Tafsir</h3>
+                <p class="video-channel">Bangla Tafsir</p>
+            </div>
+        </div>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <!-- START: External JavaScript - Loads Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="main.js"></script>
+    <script src="halal-player.js"></script>
+   <!-- VIDEO SCRIPT-->
+   <script>
+document.body.classList.add("page-fade");
+
+let player;
+
+function onYouTubeIframeAPIReady() {
+    // YouTube API Ready
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const videoCards = document.querySelectorAll(".video-card");
+
+    videoCards.forEach((card) => {
+        card.addEventListener("click", () => {
+            const videoId = card.getAttribute("data-video-id");
+            if (!videoId) return;
+
+            openHalalPlayer(videoId, card);
+        });
+    });
+});
+
+function openHalalPlayer(videoId, card) {
+    if (document.querySelector('.video-player-overlay')) return;
+
+    const container = document.createElement("div");
+    container.className = "video-player-overlay";
+    container.innerHTML = `
+        <div class="player-content">
+            <div class="halal-player-header">
+                <span class="halal-logo"><i class="fas fa-mosque"></i> HalalTube</span>
+                <button class="close-player" title="Close Video">&times;</button>
+            </div>
+            <div id="youtube-player"></div>
+            <canvas class="player-particles"></canvas>
+        </div>
+    `;
+    document.body.appendChild(container);
+
+    requestAnimationFrame(() => container.classList.add("show"));
+
+    container.querySelector(".close-player").onclick = () => closePlayer(container);
+    container.onclick = (e) => { if (e.target === container) closePlayer(container); };
+
+    player = new YT.Player('youtube-player', {
+        height: '100%',
+        width: '100%',
+        videoId: videoId,
+        playerVars: {
+            autoplay: 1,
+            rel: 0,
+            modestbranding: 1,
+            controls: 1,
+            fs: 0,
+            iv_load_policy: 3
+        },
+        events: {
+            onReady: () => {
+                updateMiniPlayer(card);
+                initParticles(container.querySelector(".player-particles"));
+            },
+            onStateChange: (event) => handlePlayerState(event, container, videoId),
+            onError: (e) => showError(container, e.data, videoId)
+        }
+    });
+}
+
+// 🎬 Handles pause & end states to show overlay
+function handlePlayerState(event, container, videoId) {
+    const playerState = event.data;
+
+    if (playerState === YT.PlayerState.PAUSED || playerState === YT.PlayerState.ENDED) {
+        showPauseOverlay(container, videoId);
+    } else if (playerState === YT.PlayerState.PLAYING) {
+        removePauseOverlay(container);
+    }
+}
+
+// 🕌 Custom pause overlay (stops YouTube recommendations)
+function showPauseOverlay(container, videoId) {
+    if (container.querySelector('.pause-overlay')) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'pause-overlay';
+    overlay.innerHTML = `
+        <div style="
+            position:absolute;
+            top:0;left:0;width:100%;height:100%;
+            background:rgba(0,0,0,0.85);
+            color:white;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            text-align:center;
+            z-index:10;
+        ">
+            <h3 style="font-size:22px;margin-bottom:12px;">
+                <i class='fas fa-mosque text-success'></i> HalalTube
+            </h3>
+            <p style="max-width:300px;font-size:15px;opacity:0.9;">
+                Video paused. Continue watching or explore more Islamic videos below.
+            </p>
+            <button id="resumeBtn" style="
+                background:#28a745;color:white;
+                border:none;border-radius:4px;
+                padding:8px 20px;margin-top:10px;cursor:pointer;
+            ">Resume Video</button>
+        </div>
+    `;
+
+    container.querySelector('.player-content').appendChild(overlay);
+
+    overlay.querySelector('#resumeBtn').onclick = () => {
+        player.playVideo();
+        removePauseOverlay(container);
+    };
+}
+
+// 🧭 Removes overlay when playing resumes
+function removePauseOverlay(container) {
+    const overlay = container.querySelector('.pause-overlay');
+    if (overlay) overlay.remove();
+}
+
+// 🌙 Page transition with Quran verse fade
+function showPageTransition(callback) {
+  const layer = document.createElement("div");
+  layer.className = "page-transition-layer";
+
+  const glow = document.createElement("div");
+  glow.className = "logo-glow";
+
+  const logo = document.createElement("div");
+  logo.className = "halaltube-logo";
+  logo.textContent = "HalalTube";
+
+  const verse = document.createElement("div");
+  verse.className = "quran-verse";
+  verse.textContent = "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيمِ";
+
+  layer.appendChild(glow);
+  layer.appendChild(logo);
+  layer.appendChild(verse);
+  document.body.appendChild(layer);
+
+  requestAnimationFrame(() => layer.classList.add("show"));
+
+  setTimeout(() => {
+    callback();
+  }, 2000);
+}
+
+function closePlayer(container) {
+    if (player) {
+        try {
+            player.stopVideo();
+            player.destroy();
+        } catch (err) {
+            console.warn("Player destroy error:", err);
+        }
+        player = null;
+    }
+
+    if (container && container.parentNode) {
+        container.classList.remove("show");
+
+        setTimeout(() => {
+            container.remove();
+            const scrollY = window.scrollY;
+            sessionStorage.setItem("scrollY", scrollY);
+            showPageTransition(() => {
+                window.location.reload();
+            });
+        }, 300);
+    }
+}
+
+function showError(container, code, videoId) {
+    const div = container.querySelector("#youtube-player");
+    div.innerHTML = `
+        <div style="text-align:center;padding:40px;color:#ccc;">
+            <p>Playback Error ${code}</p>
+            <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" style="color:#28a745;">
+                Watch on YouTube
+            </a>
+        </div>
+    `;
+}
+
+function updateMiniPlayer(card) {
+    const title = card.querySelector(".video-title").textContent;
+    const thumb = card.querySelector(".thumbnail img").src;
+    document.getElementById("miniTitle").textContent = title;
+    document.getElementById("miniThumb").src = thumb;
+    document.getElementById("miniPlayer").style.display = "flex";
+}
+
+function initParticles(canvas) {
+    const ctx = canvas.getContext("2d");
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    const particles = [];
+    for (let i = 0; i < 30; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 2.5 + 1,
+            speed: Math.random() * 0.6 + 0.2,
+            angle: Math.random() * Math.PI * 2,
+            opacity: Math.random() * 0.6 + 0.4
+        });
+    }
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#28a745";
+        particles.forEach(p => {
+            p.x += Math.cos(p.angle) * p.speed;
+            p.y += Math.sin(p.angle) * p.speed;
+            if (p.x < 0 || p.x > canvas.width) p.angle = Math.PI - p.angle;
+            if (p.y < 0 || p.y > canvas.height) p.angle = -p.angle;
+            ctx.globalAlpha = p.opacity;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        requestAnimationFrame(draw);
+    }
+    draw();
+}
+
+window.addEventListener("load", () => {
+    const scrollY = sessionStorage.getItem("scrollY");
+    if (scrollY !== null) {
+        window.scrollTo(0, parseInt(scrollY));
+        sessionStorage.removeItem("scrollY");
+    }
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const currentPage = window.location.pathname.split("/").pop(); // e.g. "quran-tafsir.html"
+  const categoryLinks = document.querySelectorAll(".yt-category-item");
+
+  categoryLinks.forEach(link => {
+    const linkPage = link.getAttribute("href");
+
+    // If current page matches the link (or home page is index.html)
+    if (linkPage === currentPage || 
+        (currentPage === "" && linkPage === "index.html")) {
+      link.classList.add("active");
+    } else {
+      link.classList.remove("active");
+    }
+  });
+});
+</script>
+</body>
+</html>

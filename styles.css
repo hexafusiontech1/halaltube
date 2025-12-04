@@ -1,0 +1,1689 @@
+/* START: Reset and Global Styles - Resets default margins/padding and sets box-sizing for consistency */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* END: Reset and Global Styles */
+
+/* START: Body Styles - Sets background, text color, font, and theme variations (dark/light/sepia) */
+body {
+  background: #0f0f0f;
+  color: white;
+  font-family: "Roboto", Arial, sans-serif;
+  margin: 0;
+  padding-top: 56px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+body.light-theme {
+  background: #f9f9f9;
+  color: #333;
+}
+body.sepia-theme {
+  background: #f4ecd8;
+  color: #5c4033;
+}
+/* END: Body Styles */
+
+/* START: Navbar Styles - Fixed top bar with logo, search, and buttons; adapts to themes */
+.yt-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #0f0f0f;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1050;
+  transition: background 0.3s ease;
+}
+body.light-theme .yt-navbar {
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+body.sepia-theme .yt-navbar {
+  background: #efe4b0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+/* END: Navbar Styles */
+
+/* START: Navbar Logo - Styles the logo with icon and text; theme-aware */
+.yt-logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+}
+body.light-theme .yt-logo {
+  color: #333;
+}
+body.sepia-theme .yt-logo {
+  color: #5c4033;
+}
+.yt-logo:hover {
+  color: white;
+  text-decoration: none;
+}
+body.light-theme .yt-logo:hover {
+  color: #333;
+}
+body.sepia-theme .yt-logo:hover {
+  color: #5c4033;
+}
+/* END: Navbar Logo */
+
+/* START: Navbar Searchbar - Styles search input and button; hidden on mobile */
+.yt-searchbar {
+  flex: 1;
+  max-width: 500px;
+  margin: 0 15px;
+  display: flex;
+  align-items: center;
+}
+.yt-searchbar input {
+  background: #121212;
+  border: 1px solid #303030;
+  border-radius: 40px 0 0 40px;
+  color: white;
+  padding: 8px 14px;
+  width: 100%;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  font-size: 16px;
+}
+body.light-theme .yt-searchbar input {
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  color: #333;
+}
+body.sepia-theme .yt-searchbar input {
+  background: #efe4b0;
+  border: 1px solid #8b6f47;
+  color: #5c4033;
+}
+.yt-searchbar input:focus {
+  outline: none;
+  border-color: #27ae60;
+}
+.yt-search-btn {
+  background: #222;
+  border: 1px solid #303030;
+  border-radius: 0 40px 40px 0;
+  color: white;
+  padding: 8px 16px;
+  cursor: pointer;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+body.light-theme .yt-search-btn {
+  background: #e0e0e0;
+  border: 1px solid #ccc;
+  color: #333;
+}
+body.sepia-theme .yt-search-btn {
+  background: #d9c2a6;
+  border: 1px solid #8b6f47;
+  color: #5c4033;
+}
+.yt-search-btn:hover {
+  background: #333;
+}
+body.light-theme .yt-search-btn:hover {
+  background: #d0d0d0;
+}
+body.sepia-theme .yt-search-btn:hover {
+  background: #c9b28f;
+}
+/* END: Navbar Searchbar */
+
+/* START: Navbar Icon Buttons - Styles circular buttons for menu and search (mobile) */
+.yt-icon-btn {
+  background: transparent;
+  border-radius: 50%;
+  color: white;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+body.light-theme .yt-icon-btn {
+  color: #333;
+}
+body.sepia-theme .yt-icon-btn {
+  color: #5c4033;
+}
+.yt-icon-btn:hover {
+  background: #272727;
+}
+body.light-theme .yt-icon-btn:hover {
+  background: #e0e0e0;
+}
+body.sepia-theme .yt-icon-btn:hover {
+  background: #d9c2a6;
+}
+/* END: Navbar Icon Buttons */
+
+/* START: Theme Toggle Button - Styles button to cycle themes (dark/light/sepia) */
+.yt-theme-toggle {
+  background: transparent;
+  border-radius: 50%;
+  color: white;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+body.light-theme .yt-theme-toggle {
+  color: #333;
+}
+body.sepia-theme .yt-theme-toggle {
+  color: #5c4033;
+}
+.yt-theme-toggle:hover {
+  background: #272727;
+  transform: translateX(2px);
+}
+body.light-theme .yt-theme-toggle:hover {
+  background: #e0e0e0;
+}
+body.sepia-theme .yt-theme-toggle:hover {
+  background: #d9c2a6;
+}
+/* END: Theme Toggle Button */
+
+/* START: Adhan Reminder */
+.yt-adhan-reminder {
+  position: relative;
+  background: transparent;
+  border-radius: 20px;
+  color: white;
+  padding: 6px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  overflow: hidden;
+}
+body.light-theme .yt-adhan-reminder {
+  color: #333;
+}
+body.sepia-theme .yt-adhan-reminder {
+  color: #5c4033;
+}
+.yt-adhan-reminder::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: #2ecc71;
+  transition: width 0.3s ease;
+  z-index: -1;
+}
+.yt-adhan-reminder.active::before {
+  width: 100%;
+}
+body.light-theme .yt-adhan-reminder.active::before {
+  background: #27ae60;
+}
+body.sepia-theme .yt-adhan-reminder.active::before {
+  background: #8b6f47;
+}
+.yt-adhan-reminder:hover {
+  background: #272727;
+  transform: scale(1.05);
+}
+body.light-theme .yt-adhan-reminder:hover {
+  background: #e0e0e0;
+}
+body.sepia-theme .yt-adhan-reminder:hover {
+  background: #d9c2a6;
+}
+.yt-adhan-reminder.active i {
+  color: #2ecc71;
+  transform: scale(1.1);
+}
+body.light-theme .yt-adhan-reminder.active i {
+  color: #121212;
+}
+body.sepia-theme .yt-adhan-reminder.active i {
+  color: #ecf0f1;
+}
+.yt-adhan-reminder i {
+  font-size: 16px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+.yt-adhan-reminder span {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+.yt-adhan-reminder.active span {
+  transform: translateX(10px);
+}
+.yt-right-buttons {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin-right: 16px; /* Reduced from 65px to save space */
+}
+/* END: Adhan Reminder */
+
+/* START: Prayer Notification - Styles pop-up for prayer reminders with themed gradients */
+.prayer-notification {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  max-width: 350px;
+  z-index: 3000;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  font-family: "Roboto", sans-serif;
+  direction: ltr;
+}
+body.light-theme .prayer-notification {
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+body.sepia-theme .prayer-notification {
+  background: rgba(244, 236, 216, 0.95);
+  color: #5c4033;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+.prayer-notification.fajr {
+  background: linear-gradient(135deg, #87ceeb 0%, #4682b4 100%);
+  color: white;
+}
+body.light-theme .prayer-notification.fajr {
+  background: linear-gradient(135deg, #b0e0e6 0%, #87ceeb 100%);
+  color: #333;
+}
+body.sepia-theme .prayer-notification.fajr {
+  background: linear-gradient(135deg, #d9c2a6 0%, #c9b28f 100%);
+  color: #5c4033;
+}
+.prayer-notification.dhuhr {
+  background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+  color: white;
+}
+body.light-theme .prayer-notification.dhuhr {
+  background: linear-gradient(135deg, #ffeb3b 0%, #ffd700 100%);
+  color: #333;
+}
+body.sepia-theme .prayer-notification.dhuhr {
+  background: linear-gradient(135deg, #d9c2a6 0%, #c9b28f 100%);
+  color: #5c4033;
+}
+.prayer-notification.asr {
+  background: linear-gradient(135deg, #ffa07a 0%, #ff4500 100%);
+  color: white;
+}
+body.light-theme .prayer-notification.asr {
+  background: linear-gradient(135deg, #ffb6c1 0%, #ffa07a 100%);
+  color: #333;
+}
+body.sepia-theme .prayer-notification.asr {
+  background: linear-gradient(135deg, #d9c2a6 0%, #c9b28f 100%);
+  color: #5c4033;
+}
+.prayer-notification.maghrib {
+  background: linear-gradient(135deg, #ff4500 0%, #8b008b 100%);
+  color: white;
+}
+body.light-theme .prayer-notification.maghrib {
+  background: linear-gradient(135deg, #ff6347 0%, #c71585 100%);
+  color: #333;
+}
+body.sepia-theme .prayer-notification.maghrib {
+  background: linear-gradient(135deg, #d9c2a6 0%, #c9b28f 100%);
+  color: #5c4033;
+}
+.prayer-notification.isha {
+  background: linear-gradient(135deg, #191970 0%, #000080 100%),
+    url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Ccircle cx="20" cy="20" r="2" fill="%23ffffff" opacity="0.3"/%3E%3Ccircle cx="80" cy="30" r="1.5" fill="%23ffffff" opacity="0.4"/%3E%3Ccircle cx="50" cy="70" r="1" fill="%23ffffff" opacity="0.2"/%3E%3Ccircle cx="30" cy="50" r="1.2" fill="%23ffffff" opacity="0.3"/%3E%3C/svg%3E');
+  background-size: cover, 100px;
+  color: white;
+}
+body.light-theme .prayer-notification.isha {
+  background: linear-gradient(135deg, #4169e1 0%, #191970 100%),
+    url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Ccircle cx="20" cy="20" r="2" fill="%23ffffff" opacity="0.3"/%3E%3Ccircle cx="80" cy="30" r="1.5" fill="%23ffffff" opacity="0.4"/%3E%3Ccircle cx="50" cy="70" r="1" fill="%23ffffff" opacity="0.2"/%3E%3Ccircle cx="30" cy="50" r="1.2" fill="%23ffffff" opacity="0.3"/%3E%3C/svg%3E');
+  background-size: cover, 100px;
+  color: #333;
+}
+body.sepia-theme .prayer-notification.isha {
+  background: linear-gradient(135deg, #d9c2a6 0%, #c9b28f 100%);
+  color: #5c4033;
+}
+.prayer-notification.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+.prayer-notification .icon {
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.prayer-notification .prayer-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-align: center;
+  direction: rtl;
+}
+.prayer-notification .prayer-name .arabic {
+  font-family: "Arial", sans-serif;
+  font-size: 20px;
+}
+.prayer-notification .prayer-name .english {
+  font-size: 16px;
+  color: #ccc;
+}
+body.light-theme .prayer-notification .prayer-name .english {
+  color: #666;
+}
+body.sepia-theme .prayer-notification .prayer-name .english {
+  color: #8b6f47;
+}
+.prayer-notification .quran-verse {
+  font-style: italic;
+  font-size: 14px;
+  margin-bottom: 10px;
+  text-align: center;
+  padding: 10px;
+  background: rgba(46, 204, 113, 0.1);
+  border-radius: 5px;
+}
+body.light-theme .prayer-notification .quran-verse {
+  background: rgba(46, 204, 113, 0.05);
+}
+body.sepia-theme .prayer-notification .quran-verse {
+  background: rgba(139, 111, 71, 0.1);
+}
+.prayer-notification .encouragement {
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #2ecc71;
+}
+body.light-theme .prayer-notification .encouragement {
+  color: #27ae60;
+}
+body.sepia-theme .prayer-notification .encouragement {
+  color: #8b6f47;
+}
+.prayer-notification .close-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+body.light-theme .prayer-notification .close-btn {
+  color: #333;
+}
+body.sepia-theme .prayer-notification .close-btn {
+  color: #5c4033;
+}
+.prayer-notification .close-btn:hover {
+  color: #ff6b6b;
+}
+body.light-theme .prayer-notification .close-btn:hover {
+  color: #e74c3c;
+}
+body.sepia-theme .prayer-notification .close-btn:hover {
+  color: #a0522d;
+}
+/* END: Prayer Notification */
+
+/* Updated countdown timer styles to show prayer name */
+.countdown-timer {
+  display: inline-block;
+  background: #27ae60;
+  color: white;
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 20px;
+  margin-left: 8px;
+  white-space: nowrap;
+  transition: background 0.3s ease;
+}
+body.light-theme .countdown-timer {
+  background: #2ecc71;
+  color: white;
+}
+body.sepia-theme .countdown-timer {
+  background: #8b6f47;
+  color: white;
+}
+.countdown-timer span {
+  margin-right: 4px;
+}
+
+/* START: Tooltip Styles - Floating text for hover hints on sidebar/buttons */
+.yt-tooltip {
+  position: fixed;
+  background: #272727;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-family: "Roboto", Arial, sans-serif;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: translateY(5px);
+  z-index: 2000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+.yt-tooltip.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+body.light-theme .yt-tooltip {
+  background: #e0e0e0;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+body.sepia-theme .yt-tooltip {
+  background: #d9c2a6;
+  color: #5c4033;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+/* END: Tooltip Styles */
+
+/* START: Sliding Sidebar Navbar - Header for sliding sidebar with logo and toggle */
+.ht-sliding-navbar {
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  background: #0f0f0f;
+  transition: background 0.3s ease;
+}
+body.light-theme .ht-sliding-navbar {
+  background: #ffffff;
+}
+body.sepia-theme .ht-sliding-navbar {
+  background: #efe4b0;
+}
+.ht-sliding-logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+}
+body.light-theme .ht-sliding-logo {
+  color: #333;
+}
+body.sepia-theme .ht-sliding-logo {
+  color: #5c4033;
+}
+.ht-sliding-logo:hover {
+  color: white;
+  text-decoration: none;
+}
+body.light-theme .ht-sliding-logo:hover {
+  color: #333;
+}
+body.sepia-theme .ht-sliding-logo:hover {
+  color: #5c4033;
+}
+.ht-sliding-icon-btn {
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+body.light-theme .ht-sliding-icon-btn {
+  color: #333;
+}
+body.sepia-theme .ht-sliding-icon-btn {
+  color: #5c4033;
+}
+/* END: Sliding Sidebar Navbar */
+
+/* START: Sliding Sidebar - Hidden menu that slides in with categories and links */
+.yt-sliding-sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  padding: 10px 0;
+  background: #0f0f0f;
+  height: 100%;
+  z-index: 1100;
+  transition: left 0.3s ease, background 0.3s ease;
+  overflow-y: hidden;
+}
+body.light-theme .yt-sliding-sidebar {
+  background: #ffffff;
+}
+body.sepia-theme .yt-sliding-sidebar {
+  background: #efe4b0;
+}
+.yt-sliding-sidebar:hover {
+  overflow-y: auto;
+}
+.yt-sliding-sidebar::-webkit-scrollbar {
+  width: 2px;
+}
+.yt-sliding-sidebar::-webkit-scrollbar-track {
+  background: #0f0f0f;
+}
+body.light-theme .yt-sliding-sidebar::-webkit-scrollbar-track {
+  background: #f9f9f9;
+}
+body.sepia-theme .yt-sliding-sidebar::-webkit-scrollbar-track {
+  background: #f4ecd8;
+}
+.yt-sliding-sidebar::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 2px;
+}
+body.light-theme .yt-sliding-sidebar::-webkit-scrollbar-thumb {
+  background: #888;
+}
+body.sepia-theme .yt-sliding-sidebar::-webkit-scrollbar-thumb {
+  background: #8b6f47;
+}
+.yt-sliding-sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: #555 #0f0f0f;
+}
+body.light-theme .yt-sliding-sidebar {
+  scrollbar-color: #888 #f9f9f9;
+}
+body.sepia-theme .yt-sliding-sidebar {
+  scrollbar-color: #8b6f47 #f4ecd8;
+}
+.yt-sliding-sidebar.active {
+  left: 0;
+}
+.yt-sliding-sidebar-item {
+  width: 100%;
+  padding: 10px 16px;
+  color: #fff;
+  font-size: 14px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+body.light-theme .yt-sliding-sidebar-item {
+  color: #333;
+}
+body.sepia-theme .yt-sliding-sidebar-item {
+  color: #5c4033;
+}
+.yt-sliding-sidebar-item i {
+  font-size: 18px;
+}
+.yt-sliding-sidebar-item:hover {
+  background: #272727;
+  border-radius: 100px;
+}
+body.light-theme .yt-sliding-sidebar-item:hover {
+  background: #e0e0e0;
+}
+body.sepia-theme .yt-sliding-sidebar-item:hover {
+  background: #d9c2a6;
+}
+.yt-sliding-sidebar hr {
+  border: 0;
+  height: 1px;
+  background-color: white;
+  margin: 8px 0;
+  transition: background-color 0.3s ease;
+}
+body.light-theme .yt-sliding-sidebar hr {
+  background-color: #ccc;
+}
+body.sepia-theme .yt-sliding-sidebar hr {
+  background-color: #8b6f47;
+}
+.sidebar-section-title {
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #aaa;
+}
+body.light-theme .sidebar-section-title {
+  color: #666;
+}
+body.sepia-theme .sidebar-section-title {
+  color: #8b6f47;
+}
+/* END: Sliding Sidebar */
+
+/* START: Fixed Sidebar - Vertical menu with icons for quick category access */
+.yt-sidebar {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  width: 70px;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 999;
+  height: calc(100% - 56px);
+  overflow-y: auto;
+  background: #0f0f0f;
+  transition: background 0.3s ease;
+}
+body.light-theme .yt-sidebar {
+  background: #ffffff;
+}
+body.sepia-theme .yt-sidebar {
+  background: #efe4b0;
+}
+.yt-sidebar-item {
+  width: 100%;
+  text-align: center;
+  padding: 12px 0;
+  color: #fff;
+  font-size: 10px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background 0.3s ease, color 0.3s ease;
+  border-radius: 10px;
+}
+body.light-theme .yt-sidebar-item {
+  color: #333;
+}
+body.sepia-theme .yt-sidebar-item {
+  color: #5c4033;
+}
+.yt-sidebar-item i {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+.yt-sidebar-item:hover {
+  background: #272727;
+  text-decoration: none;
+  border-radius: 10px;
+}
+body.light-theme .yt-sidebar-item:hover {
+  background: #e0e0e0;
+}
+body.sepia-theme .yt-sidebar-item:hover {
+  background: #d9c2a6;
+}
+/* END: Fixed Sidebar */
+
+/* START: Overlay - Darkens screen when sliding sidebar is open */
+.yt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1099;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+body.light-theme .yt-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+body.sepia-theme .yt-overlay {
+  background: rgba(139, 111, 71, 0.3);
+}
+.yt-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+/* END: Overlay */
+
+/* when you place your mouse on the video style */
+.preview-video {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.preview-video.playing {
+  opacity: 1;
+}
+.thumbnail {
+  position: relative;
+  overflow: hidden;
+}
+
+.thumbnail img {
+  width: 100%;
+  border-radius: 10px;
+  transition: opacity 0.3s ease;
+}
+
+.preview-iframe {
+  transition: opacity 0.3s ease;
+}
+
+.thumbnail {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.thumbnail img {
+  width: 100%;
+  border-radius: 10px;
+  transition: transform 0.4s ease, filter 0.4s ease;
+  display: block;
+}
+
+.preview-iframe {
+  transition: opacity 0.5s ease;
+}
+
+.video-card {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.video-card:hover {
+  transform: translateY(-4px);
+}
+
+.unmute-btn:hover {
+  background: rgba(0,0,0,0.8);
+  transform: scale(1.1);
+}
+.unmute-btn.pulse {
+  animation: pulseGlow 1.5s infinite;
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(255,255,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+}
+
+/* End here */
+
+/* START: Categories Slider - Horizontal list of main content categories */
+.yt-categories {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  background: #0f0f0f;
+  transition: background 0.3s ease;
+}
+body.light-theme .yt-categories {
+  background: #f9f9f9;
+}
+body.sepia-theme .yt-categories {
+  background: #f4ecd8;
+}
+.yt-category-slider {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 0 10px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.yt-category-slider::-webkit-scrollbar {
+  display: none;
+}
+.yt-category-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  margin: 0 4px;
+  border-radius: 20px;
+  background: #272727;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background 0.3s ease, color 0.3s ease;
+  white-space: nowrap;
+}
+body.light-theme .yt-category-item {
+  background: #e0e0e0;
+  color: #333;
+}
+body.sepia-theme .yt-category-item {
+  background: #d9c2a6;
+  color: #5c4033;
+}
+.yt-category-item:hover {
+  color: white;
+}
+.yt-category-item.active {
+  background: #2ecc71;
+  color: white;
+}
+body.light-theme .yt-category-item.active {
+  background: #27ae60;
+}
+body.sepia-theme .yt-category-item.active {
+  background: #8b6f47;
+}
+/* END: Categories Slider */
+
+
+/* START: Slider Navigation - Styles prev/next buttons for category/subcategory sliders */
+.slider-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 950;
+  background: #272727;
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.3s ease, background 0.3s ease;
+}
+body.light-theme .slider-nav {
+  background: #e0e0e0;
+  color: #333;
+}
+body.sepia-theme .slider-nav {
+  background: #d9c2a6;
+  color: #5c4033;
+}
+.slider-nav.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.category-prev {
+  left: 10px;
+}
+.category-next {
+  right: 10px;
+}
+
+/* END: Slider Navigation */
+
+/* START: Mobile Search - Hidden searchbar for small screens, shown on toggle */
+.mobile-search {
+  display: none;
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  background: #0f0f0f;
+  padding: 10px 16px;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+}
+body.light-theme .mobile-search {
+  background: #ffffff;
+}
+body.sepia-theme .mobile-search {
+  background: #efe4b0;
+}
+.mobile-search.show {
+  display: flex;
+  opacity: 1;
+}
+.mobile-search input {
+  flex: 1;
+  background: #121212;
+  border: 1px solid #303030;
+  border-radius: 40px 0 0 40px;
+  color: white;
+  padding: 8px 14px;
+  font-size: 16px;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+body.light-theme .mobile-search input {
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  color: #333;
+}
+body.sepia-theme .mobile-search input {
+  background: #efe4b0;
+  border: 1px solid #8b6f47;
+  color: #5c4033;
+}
+.mobile-search input:focus {
+  outline: none;
+  border-color: #4c4cff;
+}
+.mobile-search button {
+  background: #222;
+  border: 1px solid #303030;
+  border-radius: 0 40px 40px 0;
+  color: white;
+  padding: 8px 16px;
+  cursor: pointer;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+body.light-theme .mobile-search button {
+  background: #e0e0e0;
+  border: 1px solid #ccc;
+  color: #333;
+}
+body.sepia-theme .mobile-search button {
+  background: #d9c2a6;
+  border: 1px solid #8b6f47;
+  color: #5c4033;
+}
+.mobile-search button:hover {
+  background: #333;
+}
+body.light-theme .mobile-search button:hover {
+  background: #d0d0d0;
+}
+body.sepia-theme .mobile-search button:hover {
+  background: #c9b28f;
+}
+/* END: Mobile Search */
+
+/* START: Icon Colors for Sliding Sidebar - Specific colors for FontAwesome icons */
+.yt-sliding-sidebar-item i.fa-book-quran {
+  color: #2ecc71;
+}
+.yt-sliding-sidebar-item i.fa-microphone {
+  color: #3498db;
+}
+.yt-sliding-sidebar-item i.fa-child {
+  color: #f1c40f;
+}
+.yt-sliding-sidebar-item i.fa-moon {
+  color: #9b59b6;
+}
+.yt-sliding-sidebar-item i.fa-fire {
+  color: #e74c3c;
+}
+.yt-sliding-sidebar-item i.fa-clock {
+  color: #7f8c8d;
+}
+.yt-sliding-sidebar-item i.fa-star {
+  color: #f39c12;
+}
+.yt-sliding-sidebar-item i.fa-bookmark {
+  color: #1abc9c;
+}
+.yt-sliding-sidebar-item i.fa-envelope {
+  color: #3498db;
+}
+.yt-sliding-sidebar-item i.fa-flag {
+  color: #e67e22;
+}
+.yt-sliding-sidebar-item i.fa-comment {
+  color: #2ecc71;
+}
+.yt-sliding-sidebar-item i.fa-circle-info {
+  color: #ecf0f1;
+}
+.yt-sliding-sidebar-item i.fa-shield-halved {
+  color: #27ae60;
+}
+.yt-sliding-sidebar-item i.fa-phone {
+  color: #2980b9;
+}
+.ht-sliding-icon-btn i.fa-bars {
+  color: #ffffff;
+}
+body.light-theme .ht-sliding-icon-btn i.fa-bars {
+  color: #333;
+}
+body.sepia-theme .ht-sliding-icon-btn i.fa-bars {
+  color: #5c4033;
+}
+.ht-sliding-logo i.fa-mosque {
+  color: #2ecc71;
+}
+/* END: Icon Colors for Sliding Sidebar */
+
+/* START: Icon Colors for Fixed Sidebar - Specific colors for sidebar icons */
+.yt-sidebar-item i.fa-home {
+  color: #ffffff;
+}
+body.light-theme .yt-sidebar-item i.fa-home {
+  color: #333;
+}
+body.sepia-theme .yt-sidebar-item i.fa-home {
+  color: #5c4033;
+}
+.yt-sidebar-item i.fa-book-quran {
+  color: #2ecc71;
+}
+.yt-sidebar-item i.fa-microphone {
+  color: #3498db;
+}
+.yt-sidebar-item i.fa-child {
+  color: #f1c40f;
+}
+.yt-sidebar-item i.fa-moon {
+  color: #9b59b6;
+}
+/* END: Icon Colors for Fixed Sidebar */
+
+/* START: Video Feed Layout - Grid layout for displaying video cards */
+.video-feed {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px;
+  margin-left: 70px;
+  margin-top: 90px;
+  transition: background 0.3s ease;
+}
+body.light-theme .video-feed {
+  background: #f9f9f9;
+}
+body.sepia-theme .video-feed {
+  background: #f4ecd8;
+}
+/* END: Video Feed Layout */
+
+/* START: Video Card - Styles individual video cards with thumbnail and metadata */
+.video-card {
+  cursor: pointer;
+}
+.thumbnail {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: background 0.3s ease;
+}
+body.light-theme .thumbnail {
+  background: #ccc;
+}
+body.sepia-theme .thumbnail {
+  background: #d9c2a6;
+}
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.video-duration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+body.light-theme .video-duration {
+  background: rgba(0, 0, 0, 0.7);
+}
+body.sepia-theme .video-duration {
+  background: rgba(139, 111, 71, 0.7);
+}
+/* END: Video Card */
+
+/* START: Video Info - Styles video metadata (title, channel, stats) */
+.video-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 10px;
+}
+.channel-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+.video-meta {
+  flex: 1;
+}
+.video-title {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 0 5px;
+  color: #fff;
+  line-height: 1.3;
+  transition: color 0.3s ease;
+}
+body.light-theme .video-title {
+  color: #333;
+}
+body.sepia-theme .video-title {
+  color: #5c4033;
+}
+.video-channel {
+  font-size: 13px;
+  color: #aaa;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+body.light-theme .video-channel {
+  color: #666;
+}
+body.sepia-theme .video-channel {
+  color: #8b6f47;
+}
+.video-stats {
+  font-size: 12px;
+  color: #909090;
+  margin: 2px 0 0;
+  transition: color 0.3s ease;
+}
+body.light-theme .video-stats {
+  color: #777;
+}
+body.sepia-theme .video-stats {
+  color: #8b6f47;
+}
+.thumbnail {
+  position: relative;
+  width: 100%;
+  height: 202px; /* Match YouTube thumbnail aspect ratio (360x202) */
+  overflow: hidden;
+}
+.thumbnail img,
+.thumbnail iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* ───────────────────────────────
+   HalalTube Full-Screen Popup Player
+─────────────────────────────── */
+.video-player-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.98);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.player-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  animation: zoomIn 0.3s ease;
+  color: #28a745;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.halal-player-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: rgba(0, 0, 0, 0.8);
+  border-bottom: 2px solid #28a745;
+  z-index: 10001;
+}
+
+.halal-logo {
+  color: #28a745;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.player-content iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  background: #000;
+  flex: 1;
+}
+
+/* ✖ Close Button */
+.close-player {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 32px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10002;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-player:hover {
+  color: #2ecc71;
+  transform: scale(1.15);
+}
+
+/* Hide YouTube watermarks and suggestions */
+.video-player-overlay iframe {
+  border: none;
+}
+
+@media (max-width: 768px) {
+  .halal-player-header {
+    padding: 10px 15px;
+  }
+  
+  .halal-logo {
+    font-size: 16px;
+  }
+  
+  .close-player {
+    font-size: 28px;
+    right: 15px;
+    top: 10px;
+  }
+}
+/* ────────────────────────────────────────────────
+   🌙 HALALTUBE 2040 RELOAD TRANSITION
+   ──────────────────────────────────────────────── */
+
+.page-transition-layer {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center,
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 1) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 999999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+/* Shown state */
+.page-transition-layer.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Logo animation */
+.halaltube-logo {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #28a745;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  animation: logoFadeIn 0.8s ease forwards;
+}
+
+/* Crescent icon (using pseudo-element) */
+.halaltube-logo::before {
+  content: "🌙";
+  font-size: 2rem;
+  animation: moonGlow 1.5s ease-in-out infinite alternate;
+}
+
+/* Halo pulse behind logo */
+.logo-glow {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(40,167,69,0.25), transparent 70%);
+  filter: blur(30px);
+  animation: haloPulse 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes haloPulse {
+  from { transform: scale(1); opacity: 0.4; }
+  to   { transform: scale(1.2); opacity: 0.7; }
+}
+
+@keyframes moonGlow {
+  from { filter: drop-shadow(0 0 5px #28a745); opacity: 0.8; }
+  to   { filter: drop-shadow(0 0 15px #28a745); opacity: 1; }
+}
+
+@keyframes logoFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+/* ────────────────────────────────────────────────
+   Quran Verse Fade-In + Subtle Green Glow
+   ──────────────────────────────────────────────── */
+.quran-verse {
+  margin-top: 15px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #e6e6e6;
+  opacity: 0;
+  direction: rtl;
+  text-align: center;
+  font-family: "Scheherazade New", "Amiri", serif;
+  animation: verseFadeIn 1.6s ease-in forwards, verseGlow 3s ease-in-out infinite alternate;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px rgba(40, 167, 69, 0.35);
+}
+
+@keyframes verseFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes verseGlow {
+  from {
+    text-shadow: 0 0 8px rgba(40, 167, 69, 0.2);
+    color: #e6e6e6;
+  }
+  to {
+    text-shadow: 0 0 15px rgba(40, 167, 69, 0.7);
+    color: #f8fff8;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   2030 FUTURISTIC POPUP ENHANCEMENTS (NO AI)
+   ──────────────────────────────────────────────────────────────── */
+
+/* Entry animation */
+.video-player-overlay.show {
+  animation: fadeIn2030 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes fadeIn2030 {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.player-content {
+  animation: zoomIn2030 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes zoomIn2030 {
+  from { transform: translateY(50px) scale(0.92); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* Glassmorphic upgrade */
+.player-content {
+  background: rgba(15, 15, 20, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(40, 167, 69, 0.4);
+  box-shadow: 
+    0 12px 48px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(40, 167, 69, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Holographic header glow */
+.halal-player-header {
+  background: linear-gradient(135deg, rgba(40, 167, 69, 0.25), rgba(32, 201, 151, 0.18));
+  border-bottom: 1px solid rgba(40, 167, 69, 0.35);
+  padding: 16px 20px;
+}
+.halal-logo {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #28a745;
+}
+.halal-logo i { margin-right: 8px; }
+
+/* Close button – holographic */
+.close-player {
+  font-size: 36px;
+  top: 12px;
+  right: 12px;
+}
+.close-player:hover {
+  color: #28a745;
+  transform: scale(1.2) rotate(90deg);
+}
+
+/* Video – enhanced border */
+.video-player-overlay iframe {
+  border: 3px solid #28a745;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(40, 167, 69, 0.4);
+}
+
+/* Particles */
+.player-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.35;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .player-content { border-radius: 16px; }
+}/* END: Video Info */
+
+/* START: Responsive Styles - Adjusts layout for mobile (≤768px) and tablet (769-1024px) */
+@media (max-width: 768px) {
+  .yt-searchbar {
+    display: none;
+  }
+  .yt-small-icons {
+    display: flex !important;
+  }
+  .yt-adhan-reminder {
+    display: none; /* Hide adhan reminder on mobile to save space */
+  }
+  .countdown-timer {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+  .yt-sidebar {
+    display: none !important;
+  }
+  .yt-categories {
+    left: 0 !important;
+    padding: 12px 10px;
+    overflow-x: hidden;
+    justify-content: center;
+  }
+  .yt-category-slider {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 0 10px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .yt-category-slider::-webkit-scrollbar {
+    display: none;
+  }
+  .yt-subcategories {
+    left: 0 !important;
+    padding: 12px 10px;
+    overflow-x: hidden;
+    justify-content: center;
+  }
+  .yt-subcategory-slider {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 0 10px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .yt-subcategory-slider::-webkit-scrollbar {
+    display: none;
+  }
+  .yt-sliding-sidebar {
+    display: none;
+  }
+  .yt-sliding-sidebar.active {
+    display: block;
+  }
+  .slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 950;
+    background: #272727;
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.3s ease, background 0.3s ease;
+  }
+  body.light-theme .slider-nav {
+    background: #e0e0e0;
+    color: #333;
+  }
+  body.sepia-theme .slider-nav {
+    background: #d9c2a6;
+    color: #5c4033;
+  }
+  .slider-nav.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .category-prev {
+    left: 10px;
+  }
+  .category-next {
+    right: 10px;
+  }
+  .subcategory-prev {
+    left: 10px;
+  }
+  .subcategory-next {
+    right: 10px;
+  }
+  .prayer-notification {
+    top: 60px;
+    right: 10px;
+    max-width: 300px;
+    padding: 15px;
+  }
+  .mobile-search {
+    display: none;
+  }
+  .mobile-search.show {
+    display: flex;
+  }
+  .video-feed {
+    grid-template-columns: 1fr;
+    margin-left: 0;
+  }
+  .yt-right-buttons {
+    margin-right: 8px; /* Further reduced for mobile */
+    gap: 4px; /* Tighter gap for mobile */
+  }
+}
+@media (max-width: 400px) {
+  .countdown-timer {
+    display: none; /* Hide countdown timer on very small screens to ensure theme toggle visibility */
+  }
+  .yt-right-buttons {
+    margin-right: 4px; /* Minimize margin for very small screens */
+    gap: 2px; /* Minimize gap for very small screens */
+  }
+  .yt-icon-btn {
+    width: 36px; /* Slightly smaller buttons */
+    height: 36px;
+  }
+  .yt-theme-toggle {
+    width: 36px; /* Ensure theme toggle is compact */
+    height: 36px;
+  }
+}
+@media (min-width: 769px) {
+  .yt-small-icons {
+    display: none !important;
+  }
+  .slider-nav {
+    display: none;
+  }
+  .mobile-search {
+    display: none !important;
+  }
+}
+@media (max-width: 1024px) and (min-width: 769px) {
+  .video-feed {
+    grid-template-columns: repeat(2, 1fr);
+    margin-left: 70px;
+  }
+}
+/* END: Responsive Styles */
+
+/* Countdown Fade Animation */
+#countdownTimer {
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+#countdownTimer.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
